@@ -1,0 +1,10 @@
+F:\Ilya\Programming\Esin\esin-first-task\bin\Debug\esin_first_task.exe
+F:\Ilya\Programming\Esin\esin-first-task\bin\Debug\esin_first_task.pdb
+F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin-first-task.csproj.AssemblyReference.cache
+F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin-first-task.csproj.SuggestedBindingRedirects.cache
+F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin-first-task.csproj.CoreCompileInputs.cache
+F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin_first_task.exe
+F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin_first_task.pdb
+F:\Ilya\Programming\Esin\esin-first-task\bin\Debug\ValueTupleBridge.dll
+F:\Ilya\Programming\Esin\esin-first-task\bin\Debug\ValueTupleBridge.pdb
+F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin-first-task.csproj.CopyComplete

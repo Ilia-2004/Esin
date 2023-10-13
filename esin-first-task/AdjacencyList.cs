@@ -13,7 +13,8 @@ public class AdjacencyList
 
   public AdjacencyList(AdjacencyList other) =>
     _adjecencyList = new Dictionary<string, List<Edge>>(other._adjecencyList);
-  //public AdjacencyList(string path) => 
+
+  public AdjacencyList(string path) => WriteFromFile(path);
 
   // methods
   public void OutList()
@@ -94,6 +95,11 @@ public class AdjacencyList
       }
     }
 
+    return true; 
+  }
+
+  public bool WriteFromFile(string path)
+  {
     return true; 
   }
 }

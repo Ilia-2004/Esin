@@ -7,8 +7,7 @@ namespace esin_first_task
     {
     public static void Main()
     {
-      Thread.Sleep(60);
-      AdjacencyList objectGraph = new AdjacencyList();
+      Graph objectGraph = new Graph();
       string command = string.Empty;
       
       while (true)

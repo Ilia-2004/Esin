@@ -1,201 +1,157 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace esin_first_task
+namespace esin_first_task;
+
+public class Graph
 {
-    public struct Graph
+  private Dictionary<string, List<Edge>> _adjacencyList { get; set; }
+  
+  // constructors
+  public Graph() => _adjacencyList = new Dictionary<string, List<Edge>>();
+
+  public Graph(Graph other) =>
+    _adjacencyList = new Dictionary<string, List<Edge>>(other._adjacencyList);
+
+  public Graph(string path) => WriteFromFile(path);
+
+  // methods
+  public void OutList()
+  {
+    foreach (var key in _adjacencyList)
     {
-        //variables
-        private Dictionary<string, Dictionary<string, int>> _weightedGraph;
-        private Dictionary<string, List<int>> _unweightedGraph;
-        // продумать момент того, в чём разница между двумя графами
-        // понять, как сохранять направленные и не направленные графы
-        
-        //constructors
-        public Graph()
-        {
-            _weightedGraph = new Dictionary<string, Dictionary<string, int>>();
-            _unweightedGraph = new Dictionary<string, List<int>>();
-        }
+      foreach (var value in key.Value)
+        Console.WriteLine($"{key.Key}: {value.To}, {value.Weight}");
+    }
+  }
+  public bool AddVertex(string vertex)
+  {
+    if (!_adjacencyList.ContainsKey(vertex))
+    {
+      _adjacencyList[vertex] = new List<Edge>();
+      _adjacencyList[vertex].Add(new Edge("", null, false));
+    }
+    else
+    {
+      Console.WriteLine(" this vertex already exists");
+      return false; 
+    }
 
-        public Graph(Graph objectGraph)
-        {
-            _weightedGraph = objectGraph._weightedGraph;
-            _unweightedGraph = objectGraph._unweightedGraph;
+    return true;
+  }
 
-            // weight graph
-            foreach (string key in objectGraph._weightedGraph.Keys)
-                _weightedGraph[key] = new Dictionary<string, int>(objectGraph._weightedGraph[key]);
-            
-            // unweight graph
-            foreach (string key in objectGraph._unweightedGraph.Keys)
-                _unweightedGraph[key] = new List<int>(objectGraph._unweightedGraph[key]);
-        }
+  public bool AddEdge(string from, string to, int? weight, bool isDirected)
+  {
+    if (_adjacencyList.ContainsKey(from) && _adjacencyList.ContainsKey(to))
+    {
+      _adjacencyList[from].Add(new Edge(to, weight, isDirected));
+      if (!isDirected) 
+        _adjacencyList[to].Add(new Edge(from, weight, isDirected));
+    }
+    else
+    {
+      Console.WriteLine(" these vertices don't exist");
+      return false;
+    }
 
-        public Graph(string path)
-        {
-            string[] arrOnFile = File.ReadAllLines(path);
-        }
-        
-        //methods
-        
-        
-        public bool AddVertex()
-        {
-            string status = _showStatus("add a vertex");
-            if(status == "[ERROR]") return false;
-            
-            string newVertex = "";
-            Console.WriteLine(" \u001b[1m$ \u001b[0minput your vertex:");
-            Console.Write("  \u001b[1m> \u001b[0m"); newVertex = Console.ReadLine();
+    return true;
+  }
 
-            if (status == "--weig")
+  public bool RemoveVertex(string vertex)
+  {
+    if (_adjacencyList.ContainsKey(vertex))
+      _adjacencyList.Remove(vertex);
+    else
+    {
+      Console.WriteLine(" these vertices don't exist");
+      return false; 
+    }
+
+    return true;
+  }
+
+  public bool RemoveEdge(string from, string to, bool isDirected)
+  {
+    if (isDirected)
+    {
+      Edge edge = _adjacencyList[from].FirstOrDefault(e => e.To == to);
+      if (edge != null) _adjacencyList[from].Remove(edge);
+      else Console.WriteLine(" this edge don't exist");
+    }
+    else
+    {
+      Edge edgeOfFrom = _adjacencyList[from].FirstOrDefault(e => e.To == to);
+      Edge edgeOfTo = _adjacencyList[to].FirstOrDefault(e => e.To == from);
+      if (edgeOfFrom != null && edgeOfTo != null)
+      {
+        _adjacencyList[from].Remove(edgeOfFrom);
+        _adjacencyList[to].Remove(edgeOfTo);
+      }
+      else
+      {
+        Console.WriteLine(" this edge don't exist");
+        return false; 
+      }
+    }
+
+    return true; 
+  }
+
+  public bool WriteFromFile(string path)
+  {
+    return true; 
+  }
+
+   public void PrintAdjacencyMatrix()
+    {
+        var vertices = _adjacencyList.Keys.ToList();
+        var n = vertices.Count;
+        var matrix = new int[n, n];
+
+        for (var i = 0; i < n; i++)
+        {
+            for (var j = 0; j < n; j++)
             {
-                if (!_weightedGraph.ContainsKey(newVertex))
-                    _weightedGraph.Add(newVertex, new Dictionary<string, int>());
-                else
+                matrix[i, j] = 0;
+            }
+        }
+
+        for (var i = 0; i < n; i++)
+        {
+            var vertex = vertices[i];
+            var edges = _adjacencyList[vertex];
+
+            foreach (var edge in edges)
+            {
+                if (edge.To != "")
                 {
-                    Console.WriteLine(" this peak already exists");
-                    return false; 
+                    var j = vertices.IndexOf(edge.To);
+                    matrix[i, j] = edge.Weight ?? 1;
                 }
             }
-            else
-            {
-                if (!_unweightedGraph.ContainsKey(newVertex)) 
-                    _unweightedGraph.Add(newVertex, new List<int>());
-                else
-                {
-                    Console.WriteLine(" this peak already exists");
-                    return false;
-                }
-            }
-
-            return true; 
         }
 
-        public bool AddEdge()
+        Console.WriteLine(" adjacency matrix:");
+        Console.Write("  ");
+
+        for (var i = 0; i < n; i++)
         {
-            string status = _showStatus("add an edge");
-            if(status == "[ERROR]") return false;
-            int value = 0;
-            
-            string vertex = "";
-            Console.WriteLine(" \u001b[1m$ \u001b[0minput need vertex:");
-            Console.Write("  \u001b[1m> \u001b[0m"); vertex = Console.ReadLine();
-
-            string newEdge = "";
-            Console.WriteLine(" \u001b[1m$ \u001b[0minput your egde:");
-            Console.Write("  \u001b[1m> \u001b[0m"); newEdge = Console.ReadLine();
-            
-            if (status == "--weig")
-            {
-                Console.WriteLine(" \u001b[1m$ \u001b[0minput weight for your egde:");
-                Console.Write("  \u001b[1m> \u001b[0m"); value = int.Parse(Console.ReadLine());
-                try
-                {
-                    _weightedGraph[vertex].Add(newEdge, value);
-                }
-                catch
-                {
-                    Console.WriteLine(" \u001b[1m$ \u001b[0m[ERROR]: no such vertix exists!");
-                    return false;  
-                }
-            }
-            else _unweightedGraph[vertex].Add(value);
-
-            return true;
-        }
-        
-        public bool RemoveVertex()
-        {
-            string status = _showStatus("remove a vertex");
-            if (status == "[ERROR]") return false;
-            
-            string vertex = "";
-            Console.WriteLine(" \u001b[1m$ \u001b[0minput need vertex:");
-            Console.Write("  \u001b[1m> \u001b[0m"); vertex = Console.ReadLine();
-            
-            if (status == "--weig")
-                _weightedGraph.Remove(vertex);
-            else 
-                _unweightedGraph.Remove(vertex);
-
-            return true;
+            Console.Write(vertices[i] + " ");
         }
 
-        public bool RemoveEdge()
-        {
-            string status = _showStatus("remove an edge");
-            if (status == "[ERROR]") return false;
-            
-            string vertex = "";
-            Console.WriteLine(" \u001b[1m$ \u001b[0minput need vertex:");
-            Console.Write("  \u001b[1m> \u001b[0m"); vertex = Console.ReadLine();
-            
-            string edge = "";
-            Console.WriteLine(" \u001b[1m$ \u001b[0minput your egde:");
-            Console.Write("  \u001b[1m> \u001b[0m"); edge = Console.ReadLine();
+        Console.WriteLine();
 
-            if (status == "--weig")
-            {
-                try
-                {
-                    _weightedGraph[vertex].Remove(edge);
-                }
-                catch
-                {
-                    Console.WriteLine(" \u001b[1m$ \u001b[0m[ERROR]: no such vertix exists!");
-                    return false;  
-                }
-            }
-            //else
-                //_unweightedGraph[vertex].Remove(edge);
-
-            return true; 
-        }
-        
-        public void AddFile(string path) {}
-        public bool OutList()
-                {
-                    string status = _showStatus("show");
-                    if(status == "[ERROR]") return false;
-                    
-                    if(status == "--weig")
-                    {
-                        foreach (var key in _weightedGraph.Keys)
-                        {
-                            Console.WriteLine(key + ":");
-                        }
-                    }
-                    else
-                    {
-                        foreach (var key in _unweightedGraph.Keys)
-                        {
-                            Console.WriteLine(key + ":");
-                            foreach (var value in _unweightedGraph[key])
-                                Console.WriteLine("\t" + value);
-                        }
-                    }
-        
-                    return true; 
-                }
-        
-        // support methods
-        private string _showStatus(string str)
+        for (var i = 0; i < n; i++)
         {
-            string depth = "";
-            Console.WriteLine($" \u001b[1m$ \u001b[0mwhich graph do you want to {str} to? \n " +
-                              "  '--weig' - directed graph | '--unweig' - undirected praph");
-            Console.Write("  \u001b[1m> \u001b[0m"); depth = Console.ReadLine();
-                                                       
-            if (depth != "--weig" && depth != "--unweig")
+            Console.Write(vertices[i] + " ");
+
+            for (var j = 0; j < n; j++)
             {
-                depth = "[ERROR]";
-                return depth;  
+                Console.Write(matrix[i, j] + " ");
             }
-                                           
-            return depth; 
+
+            Console.WriteLine();
         }
     }
 }

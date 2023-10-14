@@ -120,7 +120,10 @@ namespace esin_first_task
         }
         else if (command == "--write-mat")
         {
-                    objectGraph.PrintAdjacencyMatrix();
+          objectGraph.PrintAdjacencyMatrix();
+
+          Console.ReadKey();
+          Console.Clear();
         }
         else if (command == "--e") break;
         else

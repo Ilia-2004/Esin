@@ -103,9 +103,9 @@ public class AdjacencyList
     return true; 
   }
 
-     public void PrintAdjacencyMatrix(Dictionary<string, List<Edge>> adjacencyList)
+   public void PrintAdjacencyMatrix()
     {
-        var vertices = adjacencyList.Keys.ToList();
+        var vertices = _adjecencyList.Keys.ToList();
         var n = vertices.Count;
         var matrix = new int[n, n];
 
@@ -120,11 +120,11 @@ public class AdjacencyList
         for (var i = 0; i < n; i++)
         {
             var vertex = vertices[i];
-            var edges = adjacencyList[vertex];
+            var edges = _adjecencyList[vertex];
 
             foreach (var edge in edges)
             {
-                if (edge.To != null)
+                if (edge.To != "")
                 {
                     var j = vertices.IndexOf(edge.To);
                     matrix[i, j] = edge.Weight ?? 1;
@@ -133,7 +133,7 @@ public class AdjacencyList
         }
 
         Console.WriteLine("Матрица смежности:");
-        Console.Write("   ");
+        Console.Write("  ");
 
         for (var i = 0; i < n; i++)
         {
@@ -154,5 +154,4 @@ public class AdjacencyList
             Console.WriteLine();
         }
     }
-
 }

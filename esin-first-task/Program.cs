@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Threading;
 
 namespace esin_first_task
 {
-  internal class Program
+    internal class Program
   {
     public static void Main()
     {

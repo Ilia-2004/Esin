@@ -4,12 +4,12 @@ using System.Threading;
 namespace esin_first_task
 {
     internal class Program
-  {
+    {
     public static void Main()
     {
       Thread.Sleep(60);
       AdjacencyList objectGraph = new AdjacencyList();
-      string command = "";
+      string command = string.Empty;
       
       while (true)
       { 
@@ -19,14 +19,15 @@ namespace esin_first_task
         
         if (command == "--h")
         {
-          Console.WriteLine(" $ output an adjacency list,     '--out-list'");
-          Console.WriteLine(" $ add a graph vertex,           '--add-vert'");
-          Console.WriteLine(" $ add a graph edge,             '--add-edge'");
-          Console.WriteLine(" $ remove a graph vertex,        '--rem-vert'");
-          Console.WriteLine(" $ add a graph egde,             '--rem-egde'");
-          Console.WriteLine(" $ add a graph egde,             '--rem-egde'");
-          Console.WriteLine(" $ if you need help,             '--h'");
-          Console.WriteLine(" $ exit programm,                '--e'");
+          Console.WriteLine(" $ output an adjacency list,           '--out-list'");
+          Console.WriteLine(" $ add a graph vertex,                 '--add-vert'");
+          Console.WriteLine(" $ add a graph edge,                   '--add-edge'");
+          Console.WriteLine(" $ remove a graph vertex,              '--rem-vert'");
+          Console.WriteLine(" $ add a graph egde,                   '--rem-egde'");
+          Console.WriteLine(" $ add a graph egde,                   '--rem-egde'");
+          Console.WriteLine(" $ input a matrix of adjacency list,   '--write-mat'");
+          Console.WriteLine(" $ if you need help,                   '--h'");
+          Console.WriteLine(" $ exit programm,                      '--e'");
           Console.ReadKey();
           Console.Clear();
         }
@@ -116,6 +117,10 @@ namespace esin_first_task
           
           Console.ReadKey();
           Console.Clear();
+        }
+        else if (command == "--write-mat")
+        {
+                    objectGraph.PrintAdjacencyMatrix();
         }
         else if (command == "--e") break;
         else

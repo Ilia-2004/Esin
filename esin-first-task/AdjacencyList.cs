@@ -102,4 +102,57 @@ public class AdjacencyList
   {
     return true; 
   }
+
+     public void PrintAdjacencyMatrix(Dictionary<string, List<Edge>> adjacencyList)
+    {
+        var vertices = adjacencyList.Keys.ToList();
+        var n = vertices.Count;
+        var matrix = new int[n, n];
+
+        for (var i = 0; i < n; i++)
+        {
+            for (var j = 0; j < n; j++)
+            {
+                matrix[i, j] = 0;
+            }
+        }
+
+        for (var i = 0; i < n; i++)
+        {
+            var vertex = vertices[i];
+            var edges = adjacencyList[vertex];
+
+            foreach (var edge in edges)
+            {
+                if (edge.To != null)
+                {
+                    var j = vertices.IndexOf(edge.To);
+                    matrix[i, j] = edge.Weight ?? 1;
+                }
+            }
+        }
+
+        Console.WriteLine("Матрица смежности:");
+        Console.Write("   ");
+
+        for (var i = 0; i < n; i++)
+        {
+            Console.Write(vertices[i] + " ");
+        }
+
+        Console.WriteLine();
+
+        for (var i = 0; i < n; i++)
+        {
+            Console.Write(vertices[i] + " ");
+
+            for (var j = 0; j < n; j++)
+            {
+                Console.Write(matrix[i, j] + " ");
+            }
+
+            Console.WriteLine();
+        }
+    }
+
 }

@@ -8,3 +8,13 @@ F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin_first_task.pdb
 F:\Ilya\Programming\Esin\esin-first-task\bin\Debug\ValueTupleBridge.dll
 F:\Ilya\Programming\Esin\esin-first-task\bin\Debug\ValueTupleBridge.pdb
 F:\Ilya\Programming\Esin\esin-first-task\obj\Debug\esin-first-task.csproj.CopyComplete
+D:\esin\esin-first-task\bin\Debug\esin_first_task.exe
+D:\esin\esin-first-task\bin\Debug\esin_first_task.pdb
+D:\esin\esin-first-task\bin\Debug\ValueTupleBridge.dll
+D:\esin\esin-first-task\bin\Debug\ValueTupleBridge.pdb
+D:\esin\esin-first-task\obj\Debug\esin-first-task.csproj.AssemblyReference.cache
+D:\esin\esin-first-task\obj\Debug\esin-first-task.csproj.SuggestedBindingRedirects.cache
+D:\esin\esin-first-task\obj\Debug\esin-first-task.csproj.CoreCompileInputs.cache
+D:\esin\esin-first-task\obj\Debug\esin-first-task.csproj.CopyComplete
+D:\esin\esin-first-task\obj\Debug\esin_first_task.exe
+D:\esin\esin-first-task\obj\Debug\esin_first_task.pdb

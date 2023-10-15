@@ -2,18 +2,17 @@
 
 namespace esin_first_task
 {
-    internal class Program
+    internal abstract class Program
     {
     public static void Main()
     {
-      Graph objectGraph = new Graph();
-      string command = string.Empty;
-      
+      var objectGraph = new Graph();
+
       while (true)
       { 
         Console.WriteLine("GRAPH ADJACENCY LIST");
         Console.WriteLine(" $ what do you want to do? | if you need help input '--h'");
-        Console.Write("  > "); command = Console.ReadLine();
+        Console.Write("  > "); var command = Console.ReadLine();
         
         if (command == "--h")
         {
@@ -21,11 +20,11 @@ namespace esin_first_task
           Console.WriteLine(" $ add a graph vertex,                 '--add-vert'");
           Console.WriteLine(" $ add a graph edge,                   '--add-edge'");
           Console.WriteLine(" $ remove a graph vertex,              '--rem-vert'");
-          Console.WriteLine(" $ add a graph egde,                   '--rem-egde'");
-          Console.WriteLine(" $ add a graph egde,                   '--rem-egde'");
+          Console.WriteLine(" $ add a graph edge,                   '--rem-edge'");
+          Console.WriteLine(" $ add a graph edge,                   '--rem-edge'");
           Console.WriteLine(" $ input a matrix of adjacency list,   '--write-mat'");
           Console.WriteLine(" $ if you need help,                   '--h'");
-          Console.WriteLine(" $ exit programm,                      '--e'");
+          Console.WriteLine(" $ exit program,                      '--e'");
           
           Console.ReadKey();
           Console.Clear();
@@ -39,26 +38,23 @@ namespace esin_first_task
         }
         else if (command == "--add-vert")
         {
-          string vertex = "";
-          
           Console.WriteLine(" $ input your vertex:");
-          Console.Write("  > "); vertex = Console.ReadLine();
+          Console.Write("  > "); var vertex = Console.ReadLine();
           
-          bool addVertex = objectGraph.AddVertex(vertex);
-          if (addVertex)
-            Console.WriteLine(" $ your vertex has been successfully added");
-          else 
-            Console.WriteLine(" $ [ERROR]: you wrote an incorrect command!");
-          
+          var addVertex = objectGraph.AddVertex(vertex.ToUpper());
+          Console.WriteLine(addVertex
+            ? " $ your vertex has been successfully added"
+            : " $ [ERROR]: you wrote an incorrect command!");
+
           Console.ReadKey();
           Console.Clear();
         }
         else if (command == "--add-edge")
         {
-          string to = string.Empty;
-          string from = string.Empty;
+          string to;
+          string from;
           int? weight = null; 
-          bool isDirected = false;
+          bool isDirected;
 
           try
           {
@@ -69,7 +65,7 @@ namespace esin_first_task
             Console.Write("  > "); to = Console.ReadLine();
             
             Console.WriteLine(" $ input your edge weight:");
-            Console.Write("  > "); string value = Console.ReadLine();
+            Console.Write("  > "); var value = Console.ReadLine();
             if (value != "0") weight = Convert.ToInt32(value); 
             
             Console.WriteLine(" $ input directed:");
@@ -84,53 +80,43 @@ namespace esin_first_task
             continue; 
           }
           
-          bool addEdge = objectGraph.AddEdge(from, to, weight, isDirected);
-          if (addEdge) 
-            Console.WriteLine(" $ your edge has been successfully added");
-          else 
-            Console.WriteLine(" $ [ERROR]: you wrote an incorrect command!");
-          
+          var addEdge = objectGraph.AddEdge(from.ToUpper(), to.ToUpper(), weight, isDirected);
+          Console.WriteLine(addEdge
+            ? " $ your edge has been successfully added"
+            : " $ [ERROR]: you wrote an incorrect command!");
+
           Console.ReadKey();
           Console.Clear();
         }
         else if (command == "--rem-vert")
         {
-          string vertex = "";
-          
           Console.WriteLine(" $ input your vertex:");
-          Console.Write("  > "); vertex = Console.ReadLine();
+          Console.Write("  > "); var vertex = Console.ReadLine();
           
-          bool remVert = objectGraph.RemoveVertex(vertex);
-          if (remVert)
-            Console.WriteLine(" $ your vertex has been successfully removed");
-          else 
-            Console.WriteLine(" $ [ERROR]: you wrote an incorrect command!");
-          
+          var remVert = objectGraph.RemoveVertex(vertex.ToUpper());
+          Console.WriteLine(remVert
+            ? " $ your vertex has been successfully removed"
+            : " $ [ERROR]: you wrote an incorrect command!");
+
           Console.ReadKey();
           Console.Clear();
         }
         else if (command == "--rem-edge")
         {
-          string to = "";
-          string from = "";
-          int? weight = null; 
-          bool isDirected = false; 
-          
           Console.WriteLine("$ input your vertex 'from':");
-          Console.Write(" > "); from = Console.ReadLine();
+          Console.Write(" > "); var from = Console.ReadLine();
           
           Console.WriteLine("$ input your vertex 'to':");
-          Console.Write(" > "); to = Console.ReadLine();
+          Console.Write(" > "); var to = Console.ReadLine();
           
           Console.WriteLine("$ input directed:");
-          Console.Write(" > "); isDirected = Convert.ToBoolean(Console.ReadLine());
+          Console.Write(" > "); var isDirected = Convert.ToBoolean(Console.ReadLine());
           
-          bool remEdge = objectGraph.RemoveEdge(from, to, isDirected);
-          if (remEdge)
-            Console.WriteLine("$ your edge has been successfully removed");
-          else 
-            Console.WriteLine("$ [ERROR]: you wrote an incorrect command!");
-          
+          var remEdge = objectGraph.RemoveEdge(from.ToUpper(), to.ToUpper(), isDirected);
+          Console.WriteLine(remEdge
+            ? "$ your edge has been successfully removed"
+            : "$ [ERROR]: you wrote an incorrect command!");
+
           Console.ReadKey();
           Console.Clear();
         }

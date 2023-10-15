@@ -6,20 +6,20 @@ namespace esin_first_task;
 
 public class Graph
 {
-  private Dictionary<string, List<Edge>> _adjacencyList { get; set; }
+  private Dictionary<string, List<Edge>> AdjacencyList { get; set; }
   
   // constructors
-  public Graph() => _adjacencyList = new Dictionary<string, List<Edge>>();
+  public Graph() => AdjacencyList = new Dictionary<string, List<Edge>>();
 
   public Graph(Graph other) =>
-    _adjacencyList = new Dictionary<string, List<Edge>>(other._adjacencyList);
+    AdjacencyList = new Dictionary<string, List<Edge>>(other.AdjacencyList);
 
   public Graph(string path) => WriteFromFile(path);
 
   // methods
   public void OutList()
   {
-    foreach (var key in _adjacencyList)
+    foreach (var key in AdjacencyList)
     {
       foreach (var value in key.Value)
         Console.WriteLine($"{key.Key}: {value.To}, {value.Weight}");
@@ -27,11 +27,8 @@ public class Graph
   }
   public bool AddVertex(string vertex)
   {
-    if (!_adjacencyList.ContainsKey(vertex))
-    {
-      _adjacencyList[vertex] = new List<Edge>();
-      _adjacencyList[vertex].Add(new Edge("", null, false));
-    }
+    if (!AdjacencyList.ContainsKey(vertex))
+      AdjacencyList[vertex] = new List<Edge> { new Edge("", null, false) };
     else
     {
       Console.WriteLine(" this vertex already exists");
@@ -43,11 +40,11 @@ public class Graph
 
   public bool AddEdge(string from, string to, int? weight, bool isDirected)
   {
-    if (_adjacencyList.ContainsKey(from) && _adjacencyList.ContainsKey(to))
+    if (AdjacencyList.ContainsKey(from) && AdjacencyList.ContainsKey(to))
     {
-      _adjacencyList[from].Add(new Edge(to, weight, isDirected));
+      AdjacencyList[from].Add(new Edge(to, weight, isDirected));
       if (!isDirected) 
-        _adjacencyList[to].Add(new Edge(from, weight, isDirected));
+        AdjacencyList[to].Add(new Edge(from, weight, false));
     }
     else
     {
@@ -60,8 +57,15 @@ public class Graph
 
   public bool RemoveVertex(string vertex)
   {
-    if (_adjacencyList.ContainsKey(vertex))
-      _adjacencyList.Remove(vertex);
+    if (AdjacencyList.ContainsKey(vertex))
+    {
+      AdjacencyList.Remove(vertex);
+      foreach (var value in from key in AdjacencyList from value in key.Value where value.To == vertex select value)
+      {
+        value.To = string.Empty; 
+        value.Weight = null;
+      }
+    }
     else
     {
       Console.WriteLine(" these vertices don't exist");
@@ -75,18 +79,18 @@ public class Graph
   {
     if (isDirected)
     {
-      Edge edge = _adjacencyList[from].FirstOrDefault(e => e.To == to);
-      if (edge != null) _adjacencyList[from].Remove(edge);
+      var edge = AdjacencyList[from].FirstOrDefault(e => e.To == to);
+      if (edge != null) AdjacencyList[from].Remove(edge);
       else Console.WriteLine(" this edge don't exist");
     }
     else
     {
-      Edge edgeOfFrom = _adjacencyList[from].FirstOrDefault(e => e.To == to);
-      Edge edgeOfTo = _adjacencyList[to].FirstOrDefault(e => e.To == from);
+      var edgeOfFrom = AdjacencyList[from].FirstOrDefault(e => e.To == to);
+      var edgeOfTo = AdjacencyList[to].FirstOrDefault(e => e.To == from);
       if (edgeOfFrom != null && edgeOfTo != null)
       {
-        _adjacencyList[from].Remove(edgeOfFrom);
-        _adjacencyList[to].Remove(edgeOfTo);
+        AdjacencyList[from].Remove(edgeOfFrom);
+        AdjacencyList[to].Remove(edgeOfTo);
       }
       else
       {
@@ -98,14 +102,14 @@ public class Graph
     return true; 
   }
 
-  public bool WriteFromFile(string path)
+  public static bool WriteFromFile(string path)
   {
     return true; 
   }
 
    public void PrintAdjacencyMatrix()
     {
-        var vertices = _adjacencyList.Keys.ToList();
+        var vertices = AdjacencyList.Keys.ToList();
         var n = vertices.Count;
         var matrix = new int[n, n];
 
@@ -118,15 +122,13 @@ public class Graph
         for (var i = 0; i < n; i++)
         {
             var vertex = vertices[i];
-            var edges = _adjacencyList[vertex];
+            var edges = AdjacencyList[vertex];
 
             foreach (var edge in edges)
             {
-                if (edge.To != "")
-                {
-                    var j = vertices.IndexOf(edge.To);
-                    matrix[i, j] = edge.Weight ?? 1;
-                }
+              if (edge.To == "") continue;
+              var j = vertices.IndexOf(edge.To);
+              matrix[i, j] = edge.Weight ?? 1;
             }
         }
 

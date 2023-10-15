@@ -112,9 +112,7 @@ public class Graph
         for (var i = 0; i < n; i++)
         {
             for (var j = 0; j < n; j++)
-            {
                 matrix[i, j] = 0;
-            }
         }
 
         for (var i = 0; i < n; i++)
@@ -136,20 +134,15 @@ public class Graph
         Console.Write("  ");
 
         for (var i = 0; i < n; i++)
-        {
             Console.Write(vertices[i] + " ");
-        }
 
         Console.WriteLine();
-
         for (var i = 0; i < n; i++)
         {
             Console.Write(vertices[i] + " ");
 
             for (var j = 0; j < n; j++)
-            {
                 Console.Write(matrix[i, j] + " ");
-            }
 
             Console.WriteLine();
         }

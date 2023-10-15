@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace esin_first_task
 {
@@ -27,6 +26,7 @@ namespace esin_first_task
           Console.WriteLine(" $ input a matrix of adjacency list,   '--write-mat'");
           Console.WriteLine(" $ if you need help,                   '--h'");
           Console.WriteLine(" $ exit programm,                      '--e'");
+          
           Console.ReadKey();
           Console.Clear();
         }
@@ -55,19 +55,34 @@ namespace esin_first_task
         }
         else if (command == "--add-edge")
         {
-          string to = "";
-          string from = "";
+          string to = string.Empty;
+          string from = string.Empty;
           int? weight = null; 
-          bool isDirected = false; 
-          
-          Console.WriteLine(" $ input your edge 'from':");
-          Console.Write("  > "); from = Console.ReadLine();
-          Console.WriteLine(" $ input your edge 'to':");
-          Console.Write("  > "); to = Console.ReadLine();
-          Console.WriteLine(" $ input your edge weight:");
-          Console.Write("  > "); weight = Convert.ToInt32(Console.ReadLine());
-          Console.WriteLine(" $ input directed:");
-          Console.Write("  > "); isDirected = Convert.ToBoolean(Console.ReadLine());
+          bool isDirected = false;
+
+          try
+          {
+            Console.WriteLine(" $ input your edge 'from':");
+            Console.Write("  > "); from = Console.ReadLine();
+            
+            Console.WriteLine(" $ input your edge 'to':");
+            Console.Write("  > "); to = Console.ReadLine();
+            
+            Console.WriteLine(" $ input your edge weight:");
+            Console.Write("  > "); string value = Console.ReadLine();
+            if (value != "0") weight = Convert.ToInt32(value); 
+            
+            Console.WriteLine(" $ input directed:");
+            Console.Write("  > "); isDirected = Convert.ToBoolean(Console.ReadLine());
+          }
+          catch
+          {
+            Console.WriteLine(" $ [ERROR]: you wrote an incorrect dataset!");
+            Console.ReadKey();
+            Console.Clear();
+            
+            continue; 
+          }
           
           bool addEdge = objectGraph.AddEdge(from, to, weight, isDirected);
           if (addEdge) 
@@ -89,7 +104,7 @@ namespace esin_first_task
           if (remVert)
             Console.WriteLine(" $ your vertex has been successfully removed");
           else 
-            Console.WriteLine("$ [ERROR]: you wrote an incorrect command!");
+            Console.WriteLine(" $ [ERROR]: you wrote an incorrect command!");
           
           Console.ReadKey();
           Console.Clear();
@@ -103,8 +118,10 @@ namespace esin_first_task
           
           Console.WriteLine("$ input your vertex 'from':");
           Console.Write(" > "); from = Console.ReadLine();
+          
           Console.WriteLine("$ input your vertex 'to':");
           Console.Write(" > "); to = Console.ReadLine();
+          
           Console.WriteLine("$ input directed:");
           Console.Write(" > "); isDirected = Convert.ToBoolean(Console.ReadLine());
           

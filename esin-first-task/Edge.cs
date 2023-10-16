@@ -8,4 +8,9 @@ public class Edge
 
   // constructor
   public Edge(string? to, int? weight, bool directed) => (To, Weight, _) = (to, weight, directed);
+
+  public Edge(string connectedVertexName, int weight)
+  {
+    throw new System.NotImplementedException();
+  }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace esin_first_task;
@@ -102,9 +103,38 @@ public class Graph
     return true; 
   }
 
-  public static bool WriteFromFile(string path)
+  public void WriteFromFile(string path)
   {
-    return true; 
+    // Считываем все строки из файла
+    var lines = File.ReadAllLines(path);
+    
+    // Проходим по каждой строке
+    foreach (var t in lines)
+    {
+      // Разделяем строку на отдельные элементы
+      var row = t.Split(' ');
+
+      // Получаем имя вершины
+      var vertexName = row[0];
+
+      // Создаем список ребер для данной вершины
+      var edges = new List<Edge>();
+
+      // Проходим по каждому элементу в строке
+      for (var j = 1; j < row.Length; j++)
+      {
+        // Получаем вес ребра
+        var weight = int.Parse(row[j]);
+
+        // Если вес ребра больше 0, добавляем его в список ребер
+        if (weight <= 0) continue;
+        var connectedVertexName = lines[j].Split(' ')[0];
+        edges.Add(new Edge(connectedVertexName, weight));
+      }
+
+      // Добавляем список ребер для данной вершины в словарь смежности
+      AdjacencyList.Add(vertexName, edges);
+    }
   }
 
    public void PrintAdjacencyMatrix()

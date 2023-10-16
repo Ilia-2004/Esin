@@ -22,10 +22,10 @@ namespace esin_first_task
           Console.WriteLine(" $ remove a graph vertex,              '--rem-vert'");
           Console.WriteLine(" $ add a graph edge,                   '--rem-edge'");
           Console.WriteLine(" $ add a graph edge,                   '--rem-edge'");
+          Console.WriteLine(" $ add a graph from a file,            '--add-from-file'");
           Console.WriteLine(" $ input a matrix of adjacency list,   '--write-mat'");
           Console.WriteLine(" $ if you need help,                   '--h'");
-          Console.WriteLine(" $ exit program,                      '--e'");
-          
+          Console.WriteLine(" $ exit program,                       '--e'");
           Console.ReadKey();
           Console.Clear();
         }
@@ -119,6 +119,10 @@ namespace esin_first_task
 
           Console.ReadKey();
           Console.Clear();
+        }
+        else if (command == "--add-from-file")
+        {
+          objectGraph.WriteFromFile(@"F:\Ilya\Programming\Esin\esin-first-task\test-files\file.txt");
         }
         else if (command == "--write-mat")
         {

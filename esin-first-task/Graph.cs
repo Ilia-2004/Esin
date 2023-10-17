@@ -103,41 +103,48 @@ public class Graph
     return true; 
   }
 
-  public void WriteFromFile(string path)
+  public bool WriteFromFile(string fileName)
   {
-    // Считываем все строки из файла
-    var lines = File.ReadAllLines(path);
+    AdjacencyList = new Dictionary<string, List<Edge>>();
+    var lines = File.ReadAllLines(fileName);
     
-    // Проходим по каждой строке
-    foreach (var t in lines)
+    var isDirected = lines[0][0].ToString() == "1" ? true : false;
+    var vertexes = lines[1].Trim().Split(' ');
+    var listAdjacency = lines.Skip(2).ToArray();
+
+    foreach (var vertex in vertexes)
+      AdjacencyList[vertex] = new List<Edge> { new Edge("", null, false) };
+    
+    var rowCount = listAdjacency.Length;
+    var columnCount = listAdjacency[0].Split(' ').Length;
+    var listAdjacencyArr = new string[rowCount, columnCount];
+
+    for (var i = 0; i < rowCount; i++)
     {
-      // Разделяем строку на отдельные элементы
-      var row = t.Split(' ');
-
-      // Получаем имя вершины
-      var vertexName = row[0];
-
-      // Создаем список ребер для данной вершины
-      var edges = new List<Edge>();
-
-      // Проходим по каждому элементу в строке
-      for (var j = 1; j < row.Length; j++)
-      {
-        // Получаем вес ребра
-        var weight = int.Parse(row[j]);
-
-        // Если вес ребра больше 0, добавляем его в список ребер
-        if (weight <= 0) continue;
-        var connectedVertexName = lines[j].Split(' ')[0];
-        edges.Add(new Edge(connectedVertexName, weight));
-      }
-
-      // Добавляем список ребер для данной вершины в словарь смежности
-      AdjacencyList.Add(vertexName, edges);
+      var values = listAdjacency[i].Split(' ');
+      for (var j = 0; j < columnCount; j++)
+        listAdjacencyArr[i, j] = values[j];
     }
+    
+    for (var i = 0; i < listAdjacencyArr.GetLength(0); i++)
+    {
+      for (var j = 1; j < listAdjacencyArr.GetLength(1); j++)
+      { 
+        if (listAdjacencyArr[i, j] != "0")
+          AdjacencyList[(i + 1).ToString()].Add(new Edge(j.ToString(), int.Parse(listAdjacencyArr[i, j].ToString()), isDirected));
+      }
+    }
+
+    foreach (var vertex in AdjacencyList)
+    {
+      foreach (var value in vertex.Value)
+        Console.WriteLine($"{vertex.Key}: {value.To}, {value.Weight}");
+    }
+
+    return true; 
   }
 
-   public void PrintAdjacencyMatrix()
+  public void PrintAdjacencyMatrix()
     {
         var vertices = AdjacencyList.Keys.ToList();
         var n = vertices.Count;

@@ -122,7 +122,14 @@ namespace esin_first_task
         }
         else if (command == "--add-from-file")
         {
-          objectGraph.WriteFromFile(@"F:\Ilya\Programming\Esin\esin-first-task\test-files\file.txt");
+          // доделать путь к файлу
+          var addFromFile = objectGraph.WriteFromFile(@"test-files\file1.txt");
+          Console.WriteLine(addFromFile
+            ? "$ your edge has been successfully removed"
+            : "$ [ERROR]: you wrote an incorrect command!");
+          
+          Console.ReadKey();
+          Console.Clear();
         }
         else if (command == "--write-mat")
         {

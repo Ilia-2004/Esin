@@ -102,32 +102,32 @@ namespace esin_first_task
         }
         else if (command == "--rem-edge")
         {
-          Console.WriteLine("$ input your vertex 'from':");
-          Console.Write(" > "); var from = Console.ReadLine();
+          Console.WriteLine(" $ input your vertex 'from':");
+          Console.Write("  > "); var from = Console.ReadLine();
           
-          Console.WriteLine("$ input your vertex 'to':");
-          Console.Write(" > "); var to = Console.ReadLine();
+          Console.WriteLine(" $ input your vertex 'to':");
+          Console.Write("  > "); var to = Console.ReadLine();
           
-          Console.WriteLine("$ input directed:");
-          Console.Write(" > "); var isDirected = Convert.ToBoolean(Console.ReadLine());
+          Console.WriteLine(" $ input directed:");
+          Console.Write("  > "); var isDirected = Convert.ToBoolean(Console.ReadLine());
           
           var remEdge = objectGraph.RemoveEdge(from.ToUpper(), to.ToUpper(), isDirected);
           Console.WriteLine(remEdge
-            ? "$ your edge has been successfully removed"
-            : "$ [ERROR]: you wrote an incorrect command!");
+            ? " $ your edge has been successfully removed"
+            : " $ [ERROR]: you wrote an incorrect command!");
 
           Console.ReadKey();
           Console.Clear();
         }
         else if (command == "--add-from-file")
         {
-          Console.WriteLine("$ input a name of file:");
-          Console.Write(" > "); var nameFile = Console.ReadLine();
+          Console.WriteLine(" $ input a name of file:");
+          Console.Write("  > "); var nameFile = Console.ReadLine();
 
           var addFromFile = objectGraph.WriteFromFile($@"D:\esin\esin-first-task\test-files\{nameFile}");
           Console.WriteLine(addFromFile
-            ? "$ your edge has been successfully removed"
-            : "$ [ERROR]: you wrote an incorrect command!");
+            ? " $ your edge has been successfully removed"
+            : " $ [ERROR]: you wrote an incorrect command!");
           
           Console.ReadKey();
           Console.Clear();
@@ -142,7 +142,7 @@ namespace esin_first_task
         else if (command == "--e") break;
         else
         {
-          Console.WriteLine("$ [ERROR]: you wrote an incorrect command!");
+          Console.WriteLine(" $ [ERROR]: you wrote an incorrect command!");
           Console.ReadKey();
           Console.Clear();
         }

@@ -124,12 +124,25 @@ namespace esin_first_task
           Console.WriteLine(" $ input a name of file:");
           Console.Write("  > "); var nameFile = Console.ReadLine();
 
-          var addFromFile = objectGraph.WriteFromFile($@"D:\esin\esin-first-task\test-files\{nameFile}");
+          var addFromFile = objectGraph.AddFromFile($@"D:\esin\esin-first-task\test-files\{nameFile}");
           Console.WriteLine(addFromFile
             ? " $ your edge has been successfully removed"
             : " $ [ERROR]: you wrote an incorrect command!");
           
           Console.ReadKey();
+          Console.Clear();
+        }
+        else if (command == "--add-in-file")
+        {
+          Console.WriteLine(" $ input a name of file:");
+          Console.Write("  > "); var nameFile = Console.ReadLine();
+
+          var addInFile = objectGraph.AddInFile($@"D:\esin\esin-first-task\test-files\{nameFile}");
+          Console.WriteLine(addInFile
+            ? " $ your edge has been successfully removed"
+            : " $ [ERROR]: you wrote an incorrect command!");
+
+                    Console.ReadKey();
           Console.Clear();
         }
         else if (command == "--write-mat")

@@ -15,7 +15,7 @@ public class Graph
   public Graph(Graph other) =>
     AdjacencyList = new Dictionary<string, List<Edge>>(other.AdjacencyList);
 
-  public Graph(string path) => WriteFromFile(path);
+  public Graph(string path) => AddFromFile(path);
 
   // methods
   public void OutList()
@@ -103,10 +103,10 @@ public class Graph
     return true; 
   }
 
-  public bool WriteFromFile(string fileName)
+  public bool AddFromFile(string pathFile)
   {
     AdjacencyList = new Dictionary<string, List<Edge>>();
-    var lines = File.ReadAllLines(fileName);
+    var lines = File.ReadAllLines(pathFile);
     
     var isDirected = lines[0][0].ToString() == "1" ? true : false;
     var vertexes = lines[1].Trim().Split(' ');
@@ -144,9 +144,20 @@ public class Graph
     return true; 
   }
 
-  public bool AddInFile(string fileName)
+  public bool AddInFile(string pathFile)
   {
-    
+    using (StreamWriter writer = new StreamWriter(pathFile))
+    {
+       foreach (var vertex in AdjacencyList)
+       {
+          writer.Write(vertex.Key + " ");
+          foreach (var edge in vertex.Value)
+            writer.Write(edge.To + " " + edge.Weight + " ");
+
+          writer.WriteLine();
+       }
+    }
+
     return true; 
   }
 

@@ -6,8 +6,8 @@ public class Edge
   public string? To { get; set; }
   public int? Weight { get; set; }
 
-  // constructor
-  public Edge(string? to, int? weight, bool directed) => (To, Weight, _) = (to, weight, directed);
+  // constructors
+  public Edge(string? to, int? weight, bool directed) => (To, Weight) = (to, weight);
 
   public Edge(string connectedVertexName, int weight)
   {

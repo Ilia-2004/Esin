@@ -144,6 +144,12 @@ public class Graph
     return true; 
   }
 
+  public bool AddInFile(string fileName)
+  {
+    
+    return true; 
+  }
+
   public void PrintAdjacencyMatrix()
     {
         var vertices = AdjacencyList.Keys.ToList();

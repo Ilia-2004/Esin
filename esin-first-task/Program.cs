@@ -20,8 +20,7 @@ namespace esin_first_task
           Console.WriteLine(" $ add a graph vertex,                 '--add-vert'");
           Console.WriteLine(" $ add a graph edge,                   '--add-edge'");
           Console.WriteLine(" $ remove a graph vertex,              '--rem-vert'");
-          Console.WriteLine(" $ add a graph edge,                   '--rem-edge'");
-          Console.WriteLine(" $ add a graph edge,                   '--rem-edge'");
+          Console.WriteLine(" $ remove a graph edge,                '--rem-edge'");
           Console.WriteLine(" $ add a graph from a file,            '--add-from-file'");
           Console.WriteLine(" $ input a matrix of adjacency list,   '--write-mat'");
           Console.WriteLine(" $ if you need help,                   '--h'");
@@ -122,8 +121,10 @@ namespace esin_first_task
         }
         else if (command == "--add-from-file")
         {
-          // доделать путь к файлу
-          var addFromFile = objectGraph.WriteFromFile(@"test-files\file1.txt");
+          Console.WriteLine("$ input a name of file:");
+          Console.Write(" > "); var nameFile = Console.ReadLine();
+
+          var addFromFile = objectGraph.WriteFromFile($@"D:\esin\esin-first-task\test-files\{nameFile}");
           Console.WriteLine(addFromFile
             ? "$ your edge has been successfully removed"
             : "$ [ERROR]: you wrote an incorrect command!");

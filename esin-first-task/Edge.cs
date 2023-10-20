@@ -7,5 +7,5 @@ public class Edge
   public int? Weight { get; set; }
 
   // constructors
-  public Edge(string? to, int? weight, bool directed) => (To, Weight) = (to, weight);
+  public Edge(string? to, int? weight) => (To, Weight) = (to, weight);
 }

@@ -107,34 +107,72 @@ public class Graph
   {
     AdjacencyList = new Dictionary<string, List<Edge>>();
     var lines = File.ReadAllLines(pathFile);
-    
-    var isDirected = lines[0][0].ToString() == "1" ? true : false;
-    var vertexes = lines[1].Trim().Split(' ');
-    var listAdjacency = lines.Skip(2).ToArray();
 
-    foreach (var vertex in vertexes)
-      AdjacencyList[vertex] = new List<Edge> { new Edge("", null) };
-    
-    var rowCount = listAdjacency.Length;
-    var columnCount = listAdjacency[0].Split(' ').Length;
-    var listAdjacencyArr = new string[rowCount, columnCount];
+    Console.WriteLine(" write numbert method: ");
+    Console.Write(" > "); var command = Console.ReadLine();
 
-    for (var i = 0; i < rowCount; i++)
-    {
-      var values = listAdjacency[i].Split(' ');
-      for (var j = 0; j < columnCount; j++)
-        listAdjacencyArr[i, j] = values[j];
-    }
-    
-    for (var i = 0; i < listAdjacencyArr.GetLength(0); i++)
-    {
-      for (var j = 1; j < listAdjacencyArr.GetLength(1); j++)
-      { 
-        if (listAdjacencyArr[i, j] != "0")
-          AdjacencyList[(i + 1).ToString()].Add(new Edge(j.ToString(), int.Parse(listAdjacencyArr[i, j].ToString())));
-      }
-    }
+    if (command == "1")
+        {
+            var vertexes = lines[1].Trim().Split(' ');
+            var listAdjacency = lines.Skip(2).ToArray();
 
+            foreach (var vertex in vertexes)
+              AdjacencyList[vertex] = new List<Edge> { new Edge("", null) };
+    
+            var rowCount = listAdjacency.Length;
+            var columnCount = listAdjacency[0].Split(' ').Length;
+            var listAdjacencyArr = new string[rowCount, columnCount];
+
+            for (var i = 0; i < rowCount; i++)
+            {
+              var values = listAdjacency[i].Split(' ');
+              for (var j = 0; j < columnCount; j++)
+                listAdjacencyArr[i, j] = values[j];
+            }
+    
+            for (var i = 0; i < listAdjacencyArr.GetLength(0); i++)
+            {
+              for (var j = 1; j < listAdjacencyArr.GetLength(1); j++)
+              { 
+                if (listAdjacencyArr[i, j] != "0")
+                  AdjacencyList[(i + 1).ToString()].Add(new Edge(j.ToString(), int.Parse(listAdjacencyArr[i, j].ToString())));
+              }
+            }
+        }
+
+    else if (command == "2")
+        {
+            Dictionary<string, List<Edge>> adjacencyList = new Dictionary<string, List<Edge>>();
+
+            foreach (string line in lines)
+            {
+                string[] components = line.Split(' ');
+
+                string vertex = components[0];
+
+                List<Edge> edges = new List<Edge>();
+
+                for (int i = 1; i < components.Length; i += 2)
+                {
+                    string toVertex = components[i];
+                    int? weight = null;
+
+                    if (i + 1 < components.Length)
+                    {
+                        int parsedWeight;
+                        if (int.TryParse(components[i + 1], out parsedWeight))
+                            weight = parsedWeight;
+                    }
+
+                    Edge edge = new Edge(toVertex, weight);
+                    edges.Add(edge);
+                }
+
+                adjacencyList[vertex] = edges;
+            }
+
+            AdjacencyList = adjacencyList;
+        }
     foreach (var vertex in AdjacencyList)
     {
       foreach (var value in vertex.Value)

@@ -7,7 +7,8 @@ namespace esin_first_task
     public static void Main()
     {
       var objectGraph = new Graph();
-
+      const var pathFile = $@"F:\Ilya\Programming\Esin\esin-first-task\test-files\{nameFile}"
+        
       while (true)
       { 
         Console.WriteLine("GRAPH ADJACENCY LIST");
@@ -124,7 +125,7 @@ namespace esin_first_task
           Console.WriteLine(" $ input a name of file:");
           Console.Write("  > "); var nameFile = Console.ReadLine();
 
-          var addFromFile = objectGraph.AddFromFile($@"F:\Ilya\Programming\Esin\esin-first-task\test-files\{nameFile}");
+          var addFromFile = objectGraph.AddFromFile(pathFile);
           Console.WriteLine(addFromFile
             ? " $ your edge has been successfully removed"
             : " $ [ERROR]: you wrote an incorrect command!");
@@ -137,7 +138,7 @@ namespace esin_first_task
           Console.WriteLine(" $ input a name of file:");
           Console.Write("  > "); var nameFile = Console.ReadLine();
 
-          var addInFile = objectGraph.AddInFile($@"F:\Ilya\Programming\Esin\esin-first-task\test-files\{nameFile}");
+          var addInFile = objectGraph.AddInFile(pathFile);
           Console.WriteLine(addInFile
             ? " $ your edge has been successfully removed"
             : " $ [ERROR]: you wrote an incorrect command!");

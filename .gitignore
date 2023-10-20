@@ -1,0 +1,10 @@
+/Esin.sln
+*~
+.DS_Store
+.idea/
+bin/
+obj/
+build/
+dist/
+out/
+*.user

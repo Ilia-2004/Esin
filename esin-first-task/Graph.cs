@@ -29,7 +29,7 @@ public class Graph
   public bool AddVertex(string vertex)
   {
     if (!AdjacencyList.ContainsKey(vertex))
-      AdjacencyList[vertex] = new List<Edge> { new Edge("", null, false) };
+      AdjacencyList[vertex] = new List<Edge> { new Edge("", null) };
     else
     {
       Console.WriteLine(" this vertex already exists");
@@ -43,9 +43,9 @@ public class Graph
   {
     if (AdjacencyList.ContainsKey(from) && AdjacencyList.ContainsKey(to))
     {
-      AdjacencyList[from].Add(new Edge(to, weight, isDirected));
+      AdjacencyList[from].Add(new Edge(to, weight));
       if (!isDirected) 
-        AdjacencyList[to].Add(new Edge(from, weight, false));
+        AdjacencyList[to].Add(new Edge(from, weight));
     }
     else
     {
@@ -113,7 +113,7 @@ public class Graph
     var listAdjacency = lines.Skip(2).ToArray();
 
     foreach (var vertex in vertexes)
-      AdjacencyList[vertex] = new List<Edge> { new Edge("", null, false) };
+      AdjacencyList[vertex] = new List<Edge> { new Edge("", null) };
     
     var rowCount = listAdjacency.Length;
     var columnCount = listAdjacency[0].Split(' ').Length;
@@ -131,7 +131,7 @@ public class Graph
       for (var j = 1; j < listAdjacencyArr.GetLength(1); j++)
       { 
         if (listAdjacencyArr[i, j] != "0")
-          AdjacencyList[(i + 1).ToString()].Add(new Edge(j.ToString(), int.Parse(listAdjacencyArr[i, j].ToString()), isDirected));
+          AdjacencyList[(i + 1).ToString()].Add(new Edge(j.ToString(), int.Parse(listAdjacencyArr[i, j].ToString())));
       }
     }
 

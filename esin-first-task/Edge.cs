@@ -1,4 +1,3 @@
-#nullable enable
 namespace esin_first_task;
 
 public class Edge

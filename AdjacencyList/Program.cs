@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace esin_first_task
+namespace AdjacencyList
 {
-    internal abstract class Program
-    { 
-    public static void Main()
+  internal abstract class Program
+  { 
+    public static void Main() 
     {
       var objectGraph = new Graph();
-      const var pathFile = $@"F:\Ilya\Programming\Esin\esin-first-task\test-files\{nameFile}"
+      const string pathFile = @"F:\Ilya\Programming\Esin\AdjacencyList\test-files\";
         
       while (true)
       { 
@@ -23,7 +23,7 @@ namespace esin_first_task
           Console.WriteLine(" $ remove a graph vertex,              '--rem-vert'");
           Console.WriteLine(" $ remove a graph edge,                '--rem-edge'");
           Console.WriteLine(" $ add a graph from a file,            '--add-from-file'");
-          Console.WriteLine(" $ input a matrix of adjacency list,   '--write-mat'");
+          Console.WriteLine(" $ input a matrix of adjacency list,   '--output-mat'");
           Console.WriteLine(" $ if you need help,                   '--h'");
           Console.WriteLine(" $ exit program,                       '--e'");
           Console.ReadKey();
@@ -125,7 +125,7 @@ namespace esin_first_task
           Console.WriteLine(" $ input a name of file:");
           Console.Write("  > "); var nameFile = Console.ReadLine();
 
-          var addFromFile = objectGraph.AddFromFile(pathFile);
+          var addFromFile = objectGraph.AddFromFile(pathFile + nameFile);
           Console.WriteLine(addFromFile
             ? " $ your edge has been successfully removed"
             : " $ [ERROR]: you wrote an incorrect command!");
@@ -138,7 +138,7 @@ namespace esin_first_task
           Console.WriteLine(" $ input a name of file:");
           Console.Write("  > "); var nameFile = Console.ReadLine();
 
-          var addInFile = objectGraph.AddInFile(pathFile);
+          var addInFile = objectGraph.AddInFile(pathFile + nameFile);
           Console.WriteLine(addInFile
             ? " $ your edge has been successfully removed"
             : " $ [ERROR]: you wrote an incorrect command!");
@@ -146,9 +146,9 @@ namespace esin_first_task
           Console.ReadKey();
           Console.Clear();
         }
-        else if (command == "--write-mat")
+        else if (command == "--output-mat")
         {
-          objectGraph.PrintAdjacencyMatrix();
+          objectGraph.OutputsAdjacencyMatrix();
 
           Console.ReadKey();
           Console.Clear();

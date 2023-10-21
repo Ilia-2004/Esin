@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace esin_first_task;
+namespace AdjacencyList;
 
+// The class for storing data in a graph
 public class Graph
 {
   private Dictionary<string, List<Edge>> _adjacencyList;
   
-  // constructors
+  // Constructors
   public Graph() => _adjacencyList = new Dictionary<string, List<Edge>>();
 
   public Graph(Graph other) =>
@@ -17,7 +18,8 @@ public class Graph
 
   public Graph(string path) => AddFromFile(path);
 
-  // methods
+  // Methods
+  // this method outputs a dictionary
   public void OutList()
   {
     foreach (var key in _adjacencyList)
@@ -26,6 +28,8 @@ public class Graph
         Console.WriteLine($"{key.Key}: {value.To}, {value.Weight}");
     }
   }
+  
+  // this method adds vertex in the dictionary  
   public bool AddVertex(string vertex)
   {
     if (!_adjacencyList.ContainsKey(vertex))
@@ -39,6 +43,7 @@ public class Graph
     return true;
   }
 
+  // this method adds edges in the dictionary
   public bool AddEdge(string from, string to, int? weight, bool isDirected)
   {
     if (_adjacencyList.ContainsKey(from) && _adjacencyList.ContainsKey(to))
@@ -56,6 +61,7 @@ public class Graph
     return true;
   }
 
+  // this method removes vertexes in the dictionary 
   public bool RemoveVertex(string vertex)
   {
     if (_adjacencyList.ContainsKey(vertex))
@@ -76,6 +82,7 @@ public class Graph
     return true;
   }
 
+  // this method removes edges in the dictionary 
   public bool RemoveEdge(string from, string to, bool isDirected)
   {
     if (isDirected)
@@ -103,6 +110,7 @@ public class Graph
     return true; 
   }
 
+  // this method adds data in the dictionary from a file
   public bool AddFromFile(string pathFile)
   {
     _adjacencyList = new Dictionary<string, List<Edge>>();
@@ -184,6 +192,7 @@ public class Graph
     return true; 
   }
 
+  // this method adds data to the file from the dictionary
   public bool AddInFile(string pathFile)
   {
     using var writer = new StreamWriter(pathFile);
@@ -199,7 +208,8 @@ public class Graph
     return true; 
   }
 
-  public void PrintAdjacencyMatrix() 
+  // this method outputs an adjacency matrix
+  public void OutputsAdjacencyMatrix() 
   {
     var vertices = _adjacencyList.Keys.ToList();
     var n = vertices.Count;

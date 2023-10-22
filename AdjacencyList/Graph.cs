@@ -49,7 +49,7 @@ public class Graph
     if (_adjacencyList.ContainsKey(from) && _adjacencyList.ContainsKey(to))
     {
       _adjacencyList[from].Add(new Edge(to, weight));
-      if (!isDirected) 
+      if (!isDirected)
         _adjacencyList[to].Add(new Edge(from, weight));
     }
     else
@@ -161,7 +161,7 @@ public class Graph
           var vertex = components[0];
           var edges = new List<Edge>();
 
-          for (int i = 1; i < components.Length; i += 2)
+          for (var i = 1; i < components.Length; i += 2)
           {
             var toVertex = components[i];
             int? weight = null;
@@ -250,5 +250,22 @@ public class Graph
 
       Console.WriteLine();
     }
+  }
+  
+  // this method builds a complete graph
+  public static Graph BuildCompleteGraph(Graph g)
+  {
+    var completeGraph = new Graph();
+
+    foreach (var vertex in g._adjacencyList.Keys)
+      completeGraph.AddVertex(vertex);
+
+    foreach (var from in g._adjacencyList.Keys)
+    {
+      foreach (var to in g._adjacencyList.Keys)
+        completeGraph.AddEdge(from, to, 1, false);
+    }
+    
+    return completeGraph; 
   }
 }

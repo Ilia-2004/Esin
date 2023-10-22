@@ -24,6 +24,7 @@ namespace AdjacencyList
           Console.WriteLine(" $ remove a graph edge,                '--rem-edge'");
           Console.WriteLine(" $ add a graph from a file,            '--add-from-file'");
           Console.WriteLine(" $ input a matrix of adjacency list,   '--output-mat'");
+          Console.WriteLine(" $ build a complete graph,             '--build-com-graph'");
           Console.WriteLine(" $ if you need help,                   '--h'");
           Console.WriteLine(" $ exit program,                       '--e'");
           Console.ReadKey();
@@ -150,6 +151,15 @@ namespace AdjacencyList
         {
           objectGraph.OutputsAdjacencyMatrix();
 
+          Console.ReadKey();
+          Console.Clear();
+        }
+        else if (command == "--build-com-graph")
+        {
+          var objectMethod = Graph.BuildCompleteGraph(objectGraph);
+          objectMethod.OutputsAdjacencyMatrix();
+          
+          Console.WriteLine(" $ the complete graph has been successfully constructed!");
           Console.ReadKey();
           Console.Clear();
         }

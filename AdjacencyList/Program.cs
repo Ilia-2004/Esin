@@ -163,6 +163,15 @@ namespace AdjacencyList
           Console.ReadKey();
           Console.Clear();
         }
+        else if (command == "--build-complem-graph")
+        {
+          var objectMethod = Graph.BuildComplementGraph(objectGraph);
+          objectMethod.OutputsAdjacencyMatrix();
+          
+          Console.WriteLine(" $ the complete graph has been successfully constructed!");
+          Console.ReadKey();
+          Console.Clear();
+        }
         else if (command == "--e") break;
         else
         {

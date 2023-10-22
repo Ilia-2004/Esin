@@ -67,7 +67,8 @@ public class Graph
     if (_adjacencyList.ContainsKey(vertex))
     {
       _adjacencyList.Remove(vertex);
-      foreach (var value in from key in _adjacencyList from value in key.Value where value.To == vertex select value)
+      foreach (var value in from key in _adjacencyList from value in key.Value 
+               where value.To == vertex select value)
       {
         value.To = string.Empty; 
         value.Weight = null;
@@ -85,27 +86,42 @@ public class Graph
   // this method removes edges in the dictionary 
   public bool RemoveEdge(string from, string to, bool isDirected)
   {
-    if (isDirected)
-    {
+    // if (isDirected)
+    // {
       var edge = _adjacencyList[from].FirstOrDefault(e => e.To == to);
-      if (edge != null) _adjacencyList[from].Remove(edge);
+      Console.WriteLine(edge);
+      foreach (var Edge  in _adjacencyList[from])
+      {
+        Console.WriteLine(Edge.To, Edge.Weight);
+      }
+      if (edge != null)
+      {
+        Console.WriteLine(_adjacencyList[from].Contains(edge));
+        Console.WriteLine("+++");
+        _adjacencyList[from].Remove(edge);
+        foreach (var Edge  in _adjacencyList[from])
+        {
+          Console.WriteLine(Edge.To, Edge.Weight);
+        }
+      }
       else Console.WriteLine(" this edge don't exist");
-    }
-    else
-    {
-      var edgeOfFrom = _adjacencyList[from].FirstOrDefault(e => e.To == to);
-      var edgeOfTo = _adjacencyList[to].FirstOrDefault(e => e.To == from);
-      if (edgeOfFrom != null && edgeOfTo != null)
-      {
-        _adjacencyList[from].Remove(edgeOfFrom);
-        _adjacencyList[to].Remove(edgeOfTo);
-      }
-      else
-      {
-        Console.WriteLine(" this edge don't exist");
-        return false; 
-      }
-    }
+    // }
+    // else
+    // {
+    //   var edgeOfFrom = _adjacencyList[from].FirstOrDefault(e => e.To == to);
+    //   var edgeOfTo = _adjacencyList[to].FirstOrDefault(e => e.To == from);
+    //   
+    //   if (edgeOfFrom != null && edgeOfTo != null)
+    //   {
+    //     _adjacencyList[from].Remove(edgeOfFrom);
+    //     _adjacencyList[to].Remove(edgeOfTo);
+    //   }
+    //   else
+    //   {
+    //     Console.WriteLine(" this edge don't exist");
+    //     return false; 
+    //   }
+    // }
 
     return true; 
   }
@@ -267,5 +283,26 @@ public class Graph
     }
     
     return completeGraph; 
+  }
+  
+  // this method builds a complement graph
+  public static Graph BuildComplementGraph(Graph g)
+  {
+    var complementGraph = BuildCompleteGraph(g);
+    foreach (var vertex in g._adjacencyList)
+    {
+      foreach (var edge in vertex.Value)
+      {
+        complementGraph.RemoveEdge(vertex.Key, edge.To, true);
+      }
+    }
+    
+    foreach (var key in complementGraph._adjacencyList)
+    { 
+      foreach (var value in key.Value)
+        Console.WriteLine($"{key.Key}: {value.To}, {value.Weight}");
+    }
+    
+    return complementGraph;
   }
 }

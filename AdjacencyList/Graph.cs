@@ -293,4 +293,76 @@ public class Graph
 
     bool HasEdgeToVertex(IEnumerable<Edge> edges, string targetVertex) => edges.Any(edge => edge.To == targetVertex);
   }
+  
+  // this method builds a combined graph
+  public static Graph BuildCombinedGraph(Graph g)
+  {
+    var combinedGraph = new Graph();
+    var adjacencyList = new Graph();
+    
+    adjacencyList.AddFromFile(@"F:\Ilya\Programming\Esin\AdjacencyList\test-files\file3.txt");
+
+    foreach (var vertex in g._adjacencyList)
+    {
+      combinedGraph.AddVertex(vertex.Key);
+      foreach (var value in vertex.Value)
+        combinedGraph.AddEdge(vertex.Key, value.To, value.Weight, false); 
+    }
+
+    foreach (var vertex in adjacencyList._adjacencyList)
+    {
+      if (!combinedGraph._adjacencyList.Contains(vertex))
+      {
+        combinedGraph.AddVertex(vertex.Key);
+        foreach (var value in vertex.Value)
+          combinedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
+      }
+      else
+      {
+        Console.WriteLine("  this vertex already exists");
+        break; 
+      }
+    }
+
+    foreach (var vertex1 in g._adjacencyList.Keys)
+    {
+      foreach (var vertex2 in adjacencyList._adjacencyList.Keys)
+        combinedGraph.AddEdge(vertex1, vertex2, null, false);
+    }
+    
+    return combinedGraph; 
+  }
+  
+  // this method builds a connected graph
+  public static Graph BuildConnectedGraph(Graph g)
+  {
+    var connectedGraph = new Graph();
+    var adjacencyList = new Graph();
+    
+    adjacencyList.AddFromFile(@"F:\Ilya\Programming\Esin\AdjacencyList\test-files\file3.txt");
+
+    foreach (var vertex in g._adjacencyList)
+    {
+      connectedGraph.AddVertex(vertex.Key);
+      foreach (var value in vertex.Value)
+        connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false); 
+    }
+
+    foreach (var vertex in adjacencyList._adjacencyList)
+    {
+      if (!connectedGraph._adjacencyList.Contains(vertex))
+      {
+        connectedGraph.AddVertex(vertex.Key);
+        foreach (var value in vertex.Value)
+          connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
+      }
+      else
+      {
+        Console.WriteLine("  this vertex already exists");
+        break; 
+      }
+    }
+    
+    return connectedGraph; 
+  }
 }

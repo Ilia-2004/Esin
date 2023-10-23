@@ -173,6 +173,24 @@ namespace AdjacencyList
           Console.ReadKey();
           Console.Clear();
         }
+        else if (command == "--build-comb-graph")
+        {
+          var objectMethod = Graph.BuildCombinedGraph(objectGraph);
+          objectMethod.OutputsAdjacencyMatrix();
+          
+          Console.WriteLine(" $ the combined graph has been successfully constructed!");
+          Console.ReadKey();
+          Console.Clear();
+        }
+        else if (command == "--build-con-graph")
+        {
+          var objectMethod = Graph.BuildConnectedGraph(objectGraph);
+          objectMethod.OutputsAdjacencyMatrix();
+          
+          Console.WriteLine(" $ the connected graph has been successfully constructed!");
+          Console.ReadKey();
+          Console.Clear();
+        }
         else if (command == "--e") break;
         else
         {

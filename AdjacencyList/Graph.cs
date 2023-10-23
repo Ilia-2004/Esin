@@ -20,20 +20,24 @@ public class Graph
 
   // Methods
   // this method outputs a dictionary
-  public void OutList()
+  public void OutputAdjacencyList()
   {
     foreach (var key in _adjacencyList)
     {
+      Console.Write(key.Key);
       foreach (var value in key.Value)
-        Console.WriteLine($"{key.Key}: {value.To}, {value.Weight}");
+        Console.WriteLine($": {value.To}, {value.Weight}");
+      Console.WriteLine();
     }
   }
   
   // this method adds vertex in the dictionary  
   public bool AddVertex(string vertex)
   {
+    if (vertex == "") return false; 
+    
     if (!_adjacencyList.ContainsKey(vertex))
-      _adjacencyList[vertex] = new List<Edge> { new Edge("", null) };
+      _adjacencyList[vertex] = new List<Edge>();
     else
     {
       Console.WriteLine(" this vertex already exists");
@@ -86,42 +90,28 @@ public class Graph
   // this method removes edges in the dictionary 
   public bool RemoveEdge(string from, string to, bool isDirected)
   {
-    // if (isDirected)
-    // {
+    if (isDirected)
+    {
       var edge = _adjacencyList[from].FirstOrDefault(e => e.To == to);
-      Console.WriteLine(edge);
-      foreach (var Edge  in _adjacencyList[from])
-      {
-        Console.WriteLine(Edge.To, Edge.Weight);
-      }
-      if (edge != null)
-      {
-        Console.WriteLine(_adjacencyList[from].Contains(edge));
-        Console.WriteLine("+++");
-        _adjacencyList[from].Remove(edge);
-        foreach (var Edge  in _adjacencyList[from])
-        {
-          Console.WriteLine(Edge.To, Edge.Weight);
-        }
-      }
+      if (edge != null) _adjacencyList[from].Remove(edge);
       else Console.WriteLine(" this edge don't exist");
-    // }
-    // else
-    // {
-    //   var edgeOfFrom = _adjacencyList[from].FirstOrDefault(e => e.To == to);
-    //   var edgeOfTo = _adjacencyList[to].FirstOrDefault(e => e.To == from);
-    //   
-    //   if (edgeOfFrom != null && edgeOfTo != null)
-    //   {
-    //     _adjacencyList[from].Remove(edgeOfFrom);
-    //     _adjacencyList[to].Remove(edgeOfTo);
-    //   }
-    //   else
-    //   {
-    //     Console.WriteLine(" this edge don't exist");
-    //     return false; 
-    //   }
-    // }
+    }
+    else
+    {
+      var edgeOfFrom = _adjacencyList[from].FirstOrDefault(e => e.To == to);
+      var edgeOfTo = _adjacencyList[to].FirstOrDefault(e => e.To == from);
+      
+      if (edgeOfFrom != null && edgeOfTo != null)
+      {
+        _adjacencyList[from].Remove(edgeOfFrom);
+        _adjacencyList[to].Remove(edgeOfTo);
+      }
+      else
+      {
+        Console.WriteLine(" this edge don't exist");
+        return false; 
+      }
+    }
 
     return true; 
   }
@@ -273,13 +263,13 @@ public class Graph
   {
     var completeGraph = new Graph();
 
-    foreach (var vertex in g._adjacencyList.Keys)
+    foreach (var vertex in g._adjacencyList.Keys) 
       completeGraph.AddVertex(vertex);
 
     foreach (var from in g._adjacencyList.Keys)
     {
       foreach (var to in g._adjacencyList.Keys)
-        completeGraph.AddEdge(from, to, 1, false);
+       completeGraph.AddEdge(from, to, null, false);
     }
     
     return completeGraph; 
@@ -288,21 +278,19 @@ public class Graph
   // this method builds a complement graph
   public static Graph BuildComplementGraph(Graph g)
   {
-    var complementGraph = BuildCompleteGraph(g);
-    foreach (var vertex in g._adjacencyList)
-    {
-      foreach (var edge in vertex.Value)
-      {
-        complementGraph.RemoveEdge(vertex.Key, edge.To, true);
-      }
-    }
+    var complementGraph = new Graph();
     
-    foreach (var key in complementGraph._adjacencyList)
-    { 
-      foreach (var value in key.Value)
-        Console.WriteLine($"{key.Key}: {value.To}, {value.Weight}");
+    foreach (var vertex in g._adjacencyList.Keys) 
+      complementGraph.AddVertex(vertex);
+
+    foreach (var vertex1 in g._adjacencyList.Keys)
+    {
+      foreach (var vertex2 in g._adjacencyList.Keys.Where(vertex2 => !HasEdgeToVertex(g._adjacencyList[vertex1], vertex2)))
+        complementGraph.AddEdge(vertex1, vertex2, null, false);
     }
     
     return complementGraph;
+
+    bool HasEdgeToVertex(IEnumerable<Edge> edges, string targetVertex) => edges.Any(edge => edge.To == targetVertex);
   }
 }

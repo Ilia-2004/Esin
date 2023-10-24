@@ -440,4 +440,55 @@ public class Graph
 
     return false;
   }
+  
+  // the method that applies Kruskal's algorithm
+  public static Graph Execute(Graph graph)
+  {
+    var mstGraph = new Graph();
+    var edges = new List<(string From, Edge Edge)>();
+
+    foreach (var kvp in graph._adjacencyList)
+    {
+      foreach (var edge in kvp.Value)
+      {
+        if (edge.To != null && edge.Weight.HasValue)
+          edges.Add((kvp.Key, edge));
+      }
+    }
+
+    var sortedEdges = edges.OrderBy(e => e.Edge.Weight).ToList();
+    Dictionary<string, string> parent = new();
+
+    foreach (var vertex in graph._adjacencyList.Keys.Where(vertex => vertex != null))
+      parent[vertex] = vertex;
+
+    foreach (var (from, edge) in sortedEdges)
+    {
+      if (from != null && edge.To != null)
+      {
+        var root1 = _findRoot(from, parent);
+        var root2 = _findRoot(edge.To, parent);
+
+        if (root1 != null && root2 != null && root1 != root2)
+        {
+          if (!mstGraph._adjacencyList.ContainsKey(root1))
+            mstGraph._adjacencyList[root1] = new List<Edge>();
+          mstGraph._adjacencyList[root1].Add(new Edge(root2, edge.Weight));
+          parent[root1] = root2;
+        }
+      }
+    }
+
+    return mstGraph;
+  }
+  // the support method for the Execute method
+  private static string _findRoot(string vertex, IDictionary<string, string> parent)
+  {
+    if (vertex == null || !parent.ContainsKey(vertex)) return null;
+
+    if (parent[vertex] != vertex)
+      parent[vertex] = _findRoot(parent[vertex], parent);
+
+    return parent[vertex];
+  }
 }

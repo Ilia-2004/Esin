@@ -207,6 +207,14 @@ namespace AdjacencyList
           Console.ReadKey();
           Console.Clear();
         }
+        else if (command == "--min-island-tree")
+        {
+          var resultMethod = Graph.Execute(objectGraph);
+          resultMethod.OutputAdjacencyList();
+          
+          Console.ReadKey();
+          Console.Clear();
+        }
         else if (command == "--e") break;
         else
         {

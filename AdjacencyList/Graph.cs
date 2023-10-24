@@ -1,7 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace AdjacencyList;
 
@@ -333,136 +333,111 @@ public class Graph
     return combinedGraph; 
   }
 
-    // this method builds a connected graph
-    public static Graph BuildConnectedGraph(Graph g)
+  // this method builds a connected graph
+  public static Graph BuildConnectedGraph(Graph g)
+  {
+    var connectedGraph = new Graph();
+    var adjacencyList = new Graph();
+
+    adjacencyList.AddFromFile(@"F:\Ilya\Programming\Esin\AdjacencyList\test-files\file3.txt");
+
+    foreach (var vertex in g._adjacencyList)
     {
-        var connectedGraph = new Graph();
-        var adjacencyList = new Graph();
-
-        adjacencyList.AddFromFile(@"F:\Ilya\Programming\Esin\AdjacencyList\test-files\file3.txt");
-
-        foreach (var vertex in g._adjacencyList)
-        {
-            connectedGraph.AddVertex(vertex.Key);
-            foreach (var value in vertex.Value)
-                connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
-        }
-
-        foreach (var vertex in adjacencyList._adjacencyList)
-        {
-            if (!connectedGraph._adjacencyList.Contains(vertex))
-            {
-                connectedGraph.AddVertex(vertex.Key);
-                foreach (var value in vertex.Value)
-                    connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
-            }
-            else
-            {
-                Console.WriteLine("  this vertex already exists");
-                break;
-            }
-        }
-
-        return connectedGraph;
+      connectedGraph.AddVertex(vertex.Key);
+      foreach (var value in vertex.Value)
+        connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
     }
 
-    private void DFS(string vertex, HashSet<string> visited)
+    foreach (var vertex in adjacencyList._adjacencyList)
     {
-        visited.Add(vertex);
-        if (_adjacencyList.ContainsKey(vertex) && _adjacencyList[vertex] != null)
-        {
-            foreach (var neighbor in _adjacencyList[vertex].Where(e => e != null && e.To != null).Select(e => e.To))
-            {
-                if (!visited.Contains(neighbor))
-                {
-                    DFS(neighbor, visited);
-                }
-            }
-        }
+      if (!connectedGraph._adjacencyList.Contains(vertex))
+      {
+        connectedGraph.AddVertex(vertex.Key);
+        foreach (var value in vertex.Value)
+          connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
+      }
+      else
+      {
+        Console.WriteLine("  this vertex already exists");
+        break;
+      }
     }
 
-    public int CheckingForDigraph()
-    {
-        int count = 0;
-        var visited = new HashSet<string>();
+    return connectedGraph;
+  }
 
+  // this method is for checking for the digraph
+  public int CheckingForDigraph()
+  {
+    var count = 0;
+    var visited = new HashSet<string>();
+
+    foreach (var vertex in _adjacencyList.Keys.Where(vertex => _adjacencyList[vertex] != null && !visited.Contains(vertex)))
+    {
+      _dfs(vertex, visited);
+      count++;
+    }
+
+    return count;
+  }
+  // the support method for the CheckingForDigraph method
+  private void _dfs(string vertex, HashSet<string> visited)
+  {
+    visited.Add(vertex);
+    
+    if (!_adjacencyList.ContainsKey(vertex) || _adjacencyList[vertex] == null) return;
+    foreach (var neighbor in _adjacencyList[vertex].Where(e => e is { To: not null }).Select(e => e.To))
+    {
+      if (!visited.Contains(neighbor))
+        _dfs(neighbor, visited);
+    }
+  }
+
+  // the method for checking the graph type
+  public string CheckGraphType()
+  {
+    var visited = new HashSet<string>();
+    var connectedComponents = CheckingForDigraph();
+  
+    switch (connectedComponents)
+    {
+      case 1:
+        return "  the graph is a tree";
+          
+      case > 1:
+      {
         foreach (var vertex in _adjacencyList.Keys)
         {
-            if (_adjacencyList[vertex] != null && !visited.Contains(vertex))
-            {
-                DFS(vertex, visited);
-                count++;
-            }
+          visited.Clear();
+              
+          if (visited.Contains(vertex)) continue;
+          if (_hasCycles(vertex, visited, null))
+            return "  it is neither a forest nor a tree";
         }
-
-        return count;
+            
+        return "  is a forest (several connected trees)";
+      }
+          
+      default:
+        return "  it is neither a forest nor a tree";
     }
+  }
+  // the support method for the CheckGraphType method
+  private bool _hasCycles(string vertex, HashSet<string> visited, string parent)
+  {
+    visited.Add(vertex);
 
-    public string CheckGraphType()
+    if (!_adjacencyList.ContainsKey(vertex) || _adjacencyList[vertex] == null) return false;
+    foreach (var neighbor in _adjacencyList[vertex].Where(e => e is { To: not null }).Select(e => e.To))
     {
-        var visited = new HashSet<string>();
-
-        // Проверяем наличие циклов в графе
-        // foreach (var vertex in AdjacencyList.Keys)
-        // {
-        //     if (!visited.Contains(vertex))
-        //     {
-        //         if (HasCycles(vertex, visited, null))
-        //         {
-        //             return "Не является ни лесом, ни деревом.";
-        //         }
-        //     }
-        // }
-
-        var connectedComponents = CheckingForDigraph();
-        // Console.WriteLine(connectedComponents);
-        if (connectedComponents == 1)
-        {
-            return "Является деревом.";
-        }
-        else if (connectedComponents > 1)
-        {
-            foreach (var vertex in _adjacencyList.Keys)
-            {
-                visited.Clear();
-                if (!visited.Contains(vertex))
-                {
-                    if (HasCycles(vertex, visited, null))
-                    {
-                        return "Не является ни лесом, ни деревом.";
-                    }
-                }
-            }
-            return "Является лесом (несколько связных деревьев).";
-        }
-        else
-        {
-            return "Не является ни лесом, ни деревом.";
-        }
+      if (!visited.Contains(neighbor))
+      {
+        if (_hasCycles(neighbor, visited, vertex)) 
+          return true;
+      }
+      else if (neighbor != parent) return true;
     }
 
-    private bool HasCycles(string vertex, HashSet<string> visited, string parent)
-    {
-        visited.Add(vertex);
-
-        if (_adjacencyList.ContainsKey(vertex) && _adjacencyList[vertex] != null)
-        {
-            foreach (var neighbor in _adjacencyList[vertex].Where(e => e != null && e.To != null).Select(e => e.To))
-            {
-                if (!visited.Contains(neighbor))
-                {
-                    if (HasCycles(neighbor, visited, vertex))
-                    {
-                        return true;
-                    }
-                }
-                else if (neighbor != parent)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
+    return false;
+  }
 }

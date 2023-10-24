@@ -26,6 +26,8 @@ namespace AdjacencyList
           Console.WriteLine(" $ input a matrix of adjacency list,   '--out-mat'");
           Console.WriteLine(" $ build a complete graph,             '--build-full-graph'");
           Console.WriteLine(" $ build a complement graph,           '--build-com-graph'");
+          Console.WriteLine(" $ check the graph for a digraph,      '--check-dig'");
+          Console.WriteLine(" $ check the type of graph,            '--check-graph'");
           Console.WriteLine(" $ if you need help,                   '--h'");
           Console.WriteLine(" $ exit program,                       '--e'");
           Console.ReadKey();
@@ -193,18 +195,18 @@ namespace AdjacencyList
         }
         else if (command == "--check-dig")
         {
-                    var resultMethod =  objectGraph.CheckingForDigraph();
-                    Console.WriteLine(resultMethod);
-                    Console.ReadKey();
-                    Console.Clear();
-                }
+          var resultMethod =  objectGraph.CheckingForDigraph();
+          Console.WriteLine(resultMethod);
+          Console.ReadKey();
+          Console.Clear();
+        }
         else if (command == "--check-graph")
-                {
-                    var tutPatroninPatronnik = objectGraph.CheckGraphType();
-                    Console.WriteLine(tutPatroninPatronnik);
-                    Console.ReadKey();
-                    Console.Clear();
-                }
+        {
+          var resultMethod = objectGraph.CheckGraphType();
+          Console.WriteLine(resultMethod);
+          Console.ReadKey();
+          Console.Clear();
+        }
         else if (command == "--e") break;
         else
         {

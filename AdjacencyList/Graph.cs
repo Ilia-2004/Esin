@@ -289,6 +289,9 @@ public class Graph
   public static Graph BuildComplementGraph(Graph g)
   {
     var complementGraph = BuildCompleteGraph(g);
+
+        complementGraph.OutputsAdjacencyMatrix();
+        Console.WriteLine("--------");
     foreach (var vertex in g._adjacencyList)
     {
       foreach (var edge in vertex.Value)

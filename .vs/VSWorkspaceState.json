@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AdjacencyList"
   ],
-  "SelectedNode": "\\Esin.sln",
+  "SelectedNode": "\\AdjacencyList\\Graph.cs",
   "PreviewInSolutionExplorer": false
 }

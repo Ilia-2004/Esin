@@ -61,7 +61,7 @@ class Graph
 
     public void LoadFromFile(string filename)
     {
-        using StreamReader reader = new StreamReader(filename);
+        using StreamReader reader = new StreamReader(@$"D:\esin\AdjacencyList\test-files\{filename}");
         string line;
         while ((line = reader.ReadLine()) != null)
         {

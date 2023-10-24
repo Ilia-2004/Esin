@@ -191,6 +191,20 @@ namespace AdjacencyList
           Console.ReadKey();
           Console.Clear();
         }
+        else if (command == "--check-dig")
+        {
+                    var resultMethod =  objectGraph.CheckingForDigraph();
+                    Console.WriteLine(resultMethod);
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+        else if (command == "--check-graph")
+                {
+                    var tutPatroninPatronnik = objectGraph.CheckGraphType();
+                    Console.WriteLine(tutPatroninPatronnik);
+                    Console.ReadKey();
+                    Console.Clear();
+                }
         else if (command == "--e") break;
         else
         {

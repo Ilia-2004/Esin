@@ -4,104 +4,224 @@ using esin_first_task;
 
 class Program
 {
-    static void Main()
-    {
-        Graph g = new();
-        Console.WriteLine("Enter file name:");
-        string filename = Console.ReadLine();
-        g = new Graph(filename);
+  static void Main()
+  {
+    var objectGraph = new Graph();
+    const string pathFile = @"F:\Ilya\Programming\Esin\AdjacencyList\test-files\";
+        
+    while (true)
+    { 
+      Console.WriteLine("GRAPH ADJACENCY LIST");
+      Console.WriteLine(" $ what do you want to do? | if you need help input '--h'");
+      Console.Write("  > "); var command = Console.ReadLine();
+        
+      if (command == "--h")
+      {
+        Console.WriteLine(" $ output an adjacency list,           '--out-list'");
+        Console.WriteLine(" $ add a graph vertex,                 '--add-vert'");
+        Console.WriteLine(" $ add a graph edge,                   '--add-edge'");
+        Console.WriteLine(" $ remove a graph vertex,              '--rem-vert'");
+        Console.WriteLine(" $ remove a graph edge,                '--rem-edge'");
+        Console.WriteLine(" $ add a graph from a file,            '--add-from-file'");
+        Console.WriteLine(" $ input a matrix of adjacency list,   '--out-mat'");
+        Console.WriteLine(" $ build a complete graph,             '--build-full-graph'");
+        Console.WriteLine(" $ build a complement graph,           '--build-com-graph'");
+        Console.WriteLine(" $ check the graph for a digraph,      '--check-dig'");
+        Console.WriteLine(" $ check the type of graph,            '--check-graph'");
+        Console.WriteLine(" $ if you need help,                   '--h'");
+        Console.WriteLine(" $ exit program,                       '--e'");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--out-list")
+      {
+        objectGraph.OutputAdjacencyList();
+           
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--add-vert")
+      {
+        Console.WriteLine(" $ input your vertex:");
+        Console.Write("  > "); var vertex = Console.ReadLine();
+          
+        var addVertex = objectGraph.AddVertex(vertex.ToUpper());
+        Console.WriteLine(addVertex
+          ? " $ your vertex has been successfully added"
+          : " $ [ERROR]: you wrote an incorrect command!");
+
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--add-edge")
+      {
+        string to;
+        string from;
+        int? weight = null; 
+        bool isDirected;
+
         try
         {
-            g = new Graph(filename);
+          Console.WriteLine(" $ input your edge 'from':");
+          Console.Write("  > "); from = Console.ReadLine();
+            
+          Console.WriteLine(" $ input your edge 'to':");
+          Console.Write("  > "); to = Console.ReadLine();
+            
+          Console.WriteLine(" $ input your edge weight:");
+          Console.Write("  > "); var value = Console.ReadLine();
+          if (value != "0") weight = Convert.ToInt32(value); 
+            
+          Console.WriteLine(" $ input directed:");
+          Console.Write("  > "); isDirected = Convert.ToBoolean(Console.ReadLine());
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine($"Error loading file: {e.Message}");
-
+          Console.WriteLine(" $ [ERROR]: you wrote an incorrect dataset!");
+          Console.ReadKey();
+          Console.Clear();
+            
+          continue; 
         }
+          
+        var addEdge = objectGraph.AddEdge(from.ToUpper(), to.ToUpper(), weight, isDirected);
+        Console.WriteLine(addEdge
+          ? " $ your edge has been successfully added"
+          : " $ [ERROR]: you wrote an incorrect command!");
 
-        Console.WriteLine("Your graph is directed(0 - true / 1 - false)");
-        int dr = int.Parse(Console.ReadLine());
-        bool dir = dr == 0 ? true : false;
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--rem-vert")
+      {
+        Console.WriteLine(" $ input your vertex:");
+        Console.Write("  > "); var vertex = Console.ReadLine();
+          
+        var remVert = objectGraph.RemoveVertex(vertex.ToUpper());
+        Console.WriteLine(remVert
+          ? " $ your vertex has been successfully removed"
+          : " $ [ERROR]: you wrote an incorrect command!");
 
-        Console.WriteLine("Your graph is weighted(0 - true / 1 - false)");
-        int we = int.Parse(Console.ReadLine());
-        bool wi = we == 0 ? true : false;
-        while (true)
-        {
-            Console.WriteLine();
-            Console.WriteLine("1. Add Vertex");
-            Console.WriteLine("2. Add Edge");
-            Console.WriteLine("3. Remove Vertex");
-            Console.WriteLine("4. Remove Edge");
-            Console.WriteLine("5. Display Graph");
-            Console.WriteLine("6. Display Adjacency Matrix");
-            Console.WriteLine("7: Load graph from file");
-            Console.WriteLine("8: Build and print full graph");
-            Console.WriteLine("9: Build and print complement graph");
-            Console.WriteLine("10. Load Graph From File");
-            Console.WriteLine("11. Exit");
-            Console.Write("Select an option: ");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--rem-edge")
+      {
+        Console.WriteLine(" $ input your vertex 'from':");
+        Console.Write("  > "); var from = Console.ReadLine();
+          
+        Console.WriteLine(" $ input your vertex 'to':");
+        Console.Write("  > "); var to = Console.ReadLine();
+          
+        Console.WriteLine(" $ input directed:");
+        Console.Write("  > "); var isDirected = Convert.ToBoolean(Console.ReadLine());
+          
+        var remEdge = objectGraph.RemoveEdge(from.ToUpper(), to.ToUpper(), isDirected);
+        Console.WriteLine(remEdge
+          ? " $ your edge has been successfully removed"
+          : " $ [ERROR]: you wrote an incorrect command!");
 
-            string option = Console.ReadLine();
-            bool isDirected = dir ? true : false;
-            switch (option)
-            {
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--add-from-file")
+      {
+        Console.WriteLine(" $ input a name of file:");
+        Console.Write("  > "); var nameFile = Console.ReadLine();
 
-                case "1":
-                    Console.Write("Vertex name: ");
-                    string n = Console.ReadLine();
-                    g.AddVertex(n, isDirected);
-                    // g.AddVertexWithZeroEdges(n, isDirected);
-                    g.SaveToFile(filename);
-                    break;
+        var addFromFile = objectGraph.AddFromFile(pathFile + nameFile);
+        Console.WriteLine(addFromFile
+          ? " $ your edge has been successfully removed"
+          : " $ [ERROR]: you wrote an incorrect command!");
+          
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--add-in-file")
+      {
+        Console.WriteLine(" $ input a name of file:");
+        Console.Write("  > "); var nameFile = Console.ReadLine();
 
-                case "2":
-                    Console.Write("From: ");
-                    string from = Console.ReadLine();
-                    Console.Write("To: ");
-                    string to = Console.ReadLine();
-                    if (wi) Console.Write("Weight: ");
-                    double weight = wi ? double.Parse(Console.ReadLine()) : 1;
-                    //if (dir) Console.Write("Is directed (y/n): ");
+        var addInFile = objectGraph.AddInFile(pathFile + nameFile);
+        Console.WriteLine(addInFile
+          ? " $ your edge has been successfully removed"
+          : " $ [ERROR]: you wrote an incorrect command!");
 
-                    g.AddEdge(from, to, weight, isDirected);
-                    g.SaveToFile(filename);
-                    break;
-                case "3":
-                    Console.Write("Vertex name: ");
-                    g.RemoveVertex(Console.ReadLine());
-                    g.SaveToFile(filename);
-                    break;
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--out-mat")
+      {
+        objectGraph.OutputsAdjacencyMatrix();
 
-                case "4":
-                    Console.Write("From: ");
-                    from = Console.ReadLine();
-                    Console.Write("To: ");
-                    to = Console.ReadLine();
-                    g.RemoveEdge(from, to);
-                    g.SaveToFile(filename);
-                    break;
-
-                case "5":
-                    Console.WriteLine(g);
-                    break;
-
-                case "6":
-                    g.PrintAdjacencyMatrix();
-                    break;
-
-                case "7":
-                    Console.Write($"Filename: {filename}");
-                    break;
-
-                case "11":
-                    return;
-
-                default:
-                    Console.WriteLine("Invalid option");
-                    break;
-            }
-        }
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--build-full-graph")
+      {
+        var objectMethod = Graph.BuildCompleteGraph(objectGraph);
+        objectMethod.OutputsAdjacencyMatrix();
+          
+        Console.WriteLine(" $ the complete graph has been successfully constructed!");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--build-com-graph")
+      {
+        var objectMethod = Graph.BuildComplementGraph(objectGraph);
+        objectMethod.OutputsAdjacencyMatrix();
+          
+        Console.WriteLine(" $ the complete graph has been successfully constructed!");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--build-comb-graph")
+      {
+        var objectMethod = Graph.BuildCombinedGraph(objectGraph);
+        objectMethod.OutputsAdjacencyMatrix();
+          
+        Console.WriteLine(" $ the combined graph has been successfully constructed!");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--build-con-graph")
+      {
+        var objectMethod = Graph.BuildConnectedGraph(objectGraph);
+        objectMethod.OutputsAdjacencyMatrix();
+          
+        Console.WriteLine(" $ the connected graph has been successfully constructed!");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--check-dig")
+      {
+        var resultMethod =  objectGraph.CheckingForDigraph();
+        Console.WriteLine(resultMethod);
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--check-graph")
+      {
+        var resultMethod = objectGraph.CheckGraphType();
+        Console.WriteLine(resultMethod);
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--min-island-tree")
+      {
+        var resultMethod = Graph.Execute(objectGraph);
+        resultMethod.OutputAdjacencyList();
+          
+        Console.ReadKey();
+        Console.Clear();
+      }
+      else if (command == "--e") break;
+      else
+      {
+        Console.WriteLine(" $ [ERROR]: you wrote an incorrect command!");
+        Console.ReadKey();
+        Console.Clear();
+      }
+      }
     }
 }

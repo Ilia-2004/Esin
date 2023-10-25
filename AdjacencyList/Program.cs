@@ -7,7 +7,7 @@ namespace AdjacencyList
     public static void Main() 
     {
       var objectGraph = new Graph();
-      const string pathFile = @"F:\Ilya\Programming\Esin\AdjacencyList\test-files\";
+      const string pathFile = @"D:\esin\AdjacencyList\test-files\";
         
       while (true)
       { 

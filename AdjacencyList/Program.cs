@@ -165,16 +165,20 @@ class Program
       }
       else if (com == "11")
       {
-        var objectMethod = Graph.BuildCombinedGraph(objectGraph);
-        objectMethod.OutputsAdjacencyMatrix();
+        Console.WriteLine("Введите имя файла:");
+        string nameFile = Console.ReadLine();
+        Graph.BuildCombinedGraph(objectGraph, nameFile);
+        //objectMethod.OutputsAdjacencyMatrix();
           
         Console.WriteLine("Объединённый граф успешно построен");
         Console.ReadKey();
       }
       else if (com == "12")
       {
-        var objectMethod = Graph.BuildConnectedGraph(objectGraph);
-        objectMethod.OutputsAdjacencyMatrix();
+        Console.WriteLine("Введите имя файла:");
+        string nameFile = Console.ReadLine();
+        Graph.BuildConnectedGraph(objectGraph, nameFile);
+        //objectMethod.OutputsAdjacencyMatrix();
           
         Console.WriteLine("Соединённый граф успешно построен");
         Console.ReadKey();

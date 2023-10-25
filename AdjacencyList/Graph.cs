@@ -276,12 +276,12 @@ public class Graph
   }
   
   // построение объединённого графа
-  public static Graph BuildCombinedGraph(Graph g)
+  public static Graph BuildCombinedGraph(Graph g, string pathFile)
   {
     var combinedGraph = new Graph();
     var adjacencyList = new Graph();
     
-    adjacencyList.AddFromFile(@"D:\esin\AdjacencyList\test-files\file3.txt");
+    adjacencyList.AddFromFile($@"D:\esin\AdjacencyList\test-files\{pathFile}");
 
     foreach (var vertex in g.AdjacencyList)
     {
@@ -292,17 +292,15 @@ public class Graph
 
     foreach (var vertex in adjacencyList.AdjacencyList)
     {
-      if (!combinedGraph.AdjacencyList.Contains(vertex))
+      if (combinedGraph.AdjacencyList.Contains(vertex))
       {
-        combinedGraph.AddVertex(vertex.Key);
+        Console.WriteLine("эта вершина уже 64646464существует");
+        return combinedGraph; 
+      }
+        var proverka = combinedGraph.AddVertex(vertex.Key);
+            if (!proverka) return combinedGraph;
         foreach (var value in vertex.Value)
           combinedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
-      }
-      else
-      {
-        Console.WriteLine("эта вершина уже существует");
-        break; 
-      }
     }
 
     foreach (var vertex1 in g.AdjacencyList.Keys)
@@ -310,17 +308,19 @@ public class Graph
       foreach (var vertex2 in adjacencyList.AdjacencyList.Keys)
         combinedGraph.AddEdge(vertex1, vertex2, null, false);
     }
+
+    combinedGraph.OutputsAdjacencyMatrix();
     
     return combinedGraph; 
   }
 
   // построение соединённого графа
-  public static Graph BuildConnectedGraph(Graph g)
+  public static Graph BuildConnectedGraph(Graph g, string pathFile)
   {
     var connectedGraph = new Graph();
     var adjacencyList = new Graph();
 
-    adjacencyList.AddFromFile(@"D:\esin\AdjacencyList\test-files\file3.txt");
+    adjacencyList.AddFromFile($@"D:\esin\AdjacencyList\test-files\{pathFile}");
 
     foreach (var vertex in g.AdjacencyList)
     {
@@ -333,7 +333,8 @@ public class Graph
     {
       if (!connectedGraph.AdjacencyList.Contains(vertex))
       {
-        connectedGraph.AddVertex(vertex.Key);
+        var proverka = connectedGraph.AddVertex(vertex.Key);
+        if (!proverka) return connectedGraph;
         foreach (var value in vertex.Value)
           connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
       }
@@ -343,6 +344,8 @@ public class Graph
         break;
       }
     }
+
+        connectedGraph.OutputsAdjacencyMatrix();
 
     return connectedGraph;
   }

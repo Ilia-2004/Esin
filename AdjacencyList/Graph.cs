@@ -313,7 +313,8 @@ public class Graph
     {
       if (!combinedGraph._adjacencyList.Contains(vertex))
       {
-        combinedGraph.AddVertex(vertex.Key);
+        var addVertex = combinedGraph.AddVertex(vertex.Key);
+        if (!addVertex) return combinedGraph;
         foreach (var value in vertex.Value)
           combinedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
       }
@@ -329,6 +330,8 @@ public class Graph
       foreach (var vertex2 in adjacencyList._adjacencyList.Keys)
         combinedGraph.AddEdge(vertex1, vertex2, null, false);
     }
+    
+    combinedGraph.OutputsAdjacencyMatrix();
     
     return combinedGraph; 
   }
@@ -352,7 +355,8 @@ public class Graph
     {
       if (!connectedGraph._adjacencyList.Contains(vertex))
       {
-        connectedGraph.AddVertex(vertex.Key);
+        var addVertex = connectedGraph.AddVertex(vertex.Key);
+        if (!addVertex) return connectedGraph; 
         foreach (var value in vertex.Value)
           connectedGraph.AddEdge(vertex.Key, value.To, value.Weight, false);
       }
@@ -363,6 +367,8 @@ public class Graph
       }
     }
 
+    connectedGraph.OutputsAdjacencyMatrix();
+    
     return connectedGraph;
   }
 

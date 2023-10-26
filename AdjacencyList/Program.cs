@@ -7,7 +7,7 @@ namespace AdjacencyList
     public static void Main() 
     {
       var objectGraph = new Graph();
-      const string pathFile = @"D:\esin\AdjacencyList\test-files\";
+      const string pathFile = @"F:\Ilya\Programming\Esin\AdjacencyList\test-files\";
         
       while (true)
       { 
@@ -209,8 +209,9 @@ namespace AdjacencyList
         }
         else if (command == "--min-island-tree")
         {
-          var resultMethod = Graph.Execute(objectGraph);
-          resultMethod.OutputAdjacencyList();
+          var result = objectGraph.KruskalMST();
+          Console.WriteLine(result.Item2);
+          result.Item1.OutputAdjacencyList();
           
           Console.ReadKey();
           Console.Clear();

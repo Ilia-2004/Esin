@@ -1,3 +1,5 @@
-F   E 1 T 1 
-E   F 1 
-T   F 1 
+A B 3 C 42 E 11 
+B C 15 
+C D 10 E 39 
+D E 3 
+E B 17 

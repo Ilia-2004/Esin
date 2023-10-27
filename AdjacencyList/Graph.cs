@@ -460,121 +460,44 @@ public class Graph
 
     return false;
   }
-  
-        public (Graph, int?) KruskalMST()
-        {
-            // Создание нового графа для хранения минимального остовного дерева (MST).
-            Graph mst = new Graph();
-
-            // Словарь для хранения "предка" каждой вершины. Изначально каждая вершина является своим собственным предком.
-            Dictionary<string, string> parent = new Dictionary<string, string>();
-
-            // Инициализация каждой вершины как отдельного множества.
-            foreach (var vertex in _adjacencyList.Keys)
-                parent[vertex] = vertex;
-
-            // Получение списка всех рёбер графа и их сортировка по весу.
-            var sortedEdges = _adjacencyList
-                .SelectMany(kvp => kvp.Value.Select(adj => new { Source = kvp.Key, Destination = adj.To, Weight = adj.Weight }))
-                .OrderBy(edge => edge.Weight)
-                .ToList();
+  public (Graph, int?) KruskalMst()
+  {
+    var mst = new Graph();
+    var parent = new Dictionary<string, string>();
             
-            int? totalWeight = 0; // Для хранения общего веса MST
+    foreach (var vertex in _adjacencyList.Keys)
+      parent[vertex] = vertex;
 
-            // Перебор всех рёбер графа в порядке возрастания веса.
-            foreach (var edge in sortedEdges)
-            {
-                // Нахождение предка для начальной и конечной вершины ребра.
-                string root1 = Find(edge.Source, parent);
-                string root2 = Find(edge.Destination, parent);
-
-                // Если рёбра не образуют цикл (их предки различны), добавляем ребро в MST.
-                if (root1 != root2)
-                {
-                    mst.AddEdge(edge.Source, edge.Destination, edge.Weight, false);
-                    totalWeight += edge.Weight; // Добавляем вес ребра к общему весу
-                    // Объединение двух множеств.
-                    Union(root1, root2, parent);
-                }
-            }
-
-            // Возвращаем построенное минимальное остовное дерево.
-            return (mst, totalWeight);
-        }
-
-        private string Find(string vertex, Dictionary<string, string> parent)
-        {
-            // Если вершина не является своим собственным предком, ищем предка для предка вершины.
-            if (parent[vertex] != vertex)
-                parent[vertex] = Find(parent[vertex], parent);
-            // Возвращаем предка вершины.
+    var sortedEdges = _adjacencyList
+      .SelectMany(kvp => kvp.Value.Select(adj => new { Source = kvp.Key, Destination = adj.To, Weight = adj.Weight }))
+      .OrderBy(edge => edge.Weight)
+      .ToList();
             
-          return parent[vertex];
-        }
-
-        private void Union(string root1, string root2, Dictionary<string, string> parent)
-        {
-            // Присваиваем одному предку другого предка, объединяя таким образом два множества.
-            parent[root1] = root2;
-        }
+    int? totalWeight = 0; 
+            
+    foreach (var edge in sortedEdges)
+    {
+      var root1 = Find(edge.Source, parent);
+      var root2 = Find(edge.Destination, parent);
+                
+      if (root1 != root2)
+      {
+        mst.AddEdge(edge.Source, edge.Destination, edge.Weight, false);
+        totalWeight += edge.Weight; 
+        Union(root1, root2, parent);
+      }
     }
 
-  // the method that applies Kruskal's algorithm
-//   public static Graph Execute(Graph graph)
-//   {
-//     var mstGraph = new Graph();
-//     var edges = new List<(string From, Edge Edge)>();
-//
-//     foreach (var kvp in graph._adjacencyList)
-//     {
-//       foreach (var edge in kvp.Value)
-//       {
-//         if (edge.To != null && edge.Weight.HasValue)
-//           edges.Add((kvp.Key, edge));
-//       }
-//     }
-//     
-//     var sortedEdges = edges.OrderBy(e => e.Edge.Weight).ToList();
-//     
-//     Dictionary<string, string> parent = new();
-//
-//     foreach (var vertex in graph._adjacencyList.Keys.Where(vertex => vertex != null))
-//       parent[vertex] = vertex;
-//     
-//     foreach (var (from, edge) in sortedEdges)
-//     {
-//       if (from != null && edge.To != null)
-//       {
-//         var root1 = _findRoot(from, parent);
-//         var root2 = _findRoot(edge.To, parent);
-//         
-//         if (root1 != null && root2 != null && root1 != root2)
-//         {
-//           if (!mstGraph._adjacencyList.ContainsKey(root1))
-//           {
-//             Console.WriteLine(root1);
-//             mstGraph._adjacencyList[root1] = new List<Edge>();
-//           }
-//           Console.WriteLine(" " + root2 + " " + edge.Weight);
-//           mstGraph._adjacencyList[root1].Add(new Edge(root2, edge.Weight));
-//           parent[root1] = root2;
-//           
-//         }
-//       }
-//     }
-//
-//     graph.OutputAdjacencyList();
-//     
-//     return mstGraph;
-//   }
-//   // the support method for the Execute method
-//   private static string _findRoot(string vertex, IDictionary<string, string> parent)
-//   {
-//     if (vertex == null || !parent.ContainsKey(vertex)) return null;
-//
-//     if (parent[vertex] != vertex)
-//       parent[vertex] = _findRoot(parent[vertex], parent);
-//
-//     return parent[vertex];
-//   }
-// }
+    return (mst, totalWeight);
+  }
+
+  private static string Find(string vertex, Dictionary<string, string> parent)
+  {
+    if (parent[vertex] != vertex)
+      parent[vertex] = Find(parent[vertex], parent);
+            
+    return parent[vertex];
+  }
+
+  private static void Union(string root1, string root2, Dictionary<string, string> parent) => parent[root1] = root2;
+}

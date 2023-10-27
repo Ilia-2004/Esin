@@ -209,7 +209,7 @@ namespace AdjacencyList
         }
         else if (command == "--min-island-tree")
         {
-          var result = objectGraph.KruskalMST();
+          var result = objectGraph.KruskalMst();
           Console.WriteLine(result.Item2);
           result.Item1.OutputAdjacencyList();
           

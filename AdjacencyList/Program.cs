@@ -159,7 +159,7 @@ namespace AdjacencyList
         }
         else if (command == "--build-full-graph")
         {
-          var objectMethod = Graph.BuildCompleteGraph(objectGraph);
+          var objectMethod = Graph.s_BuildCompleteGraph(objectGraph);
           objectMethod.OutputsAdjacencyMatrix();
           
           Console.WriteLine(" $ the complete graph has been successfully constructed!");
@@ -168,7 +168,7 @@ namespace AdjacencyList
         }
         else if (command == "--build-com-graph")
         {
-          var objectMethod = Graph.BuildComplementGraph(objectGraph);
+          var objectMethod = Graph.s_BuildComplementGraph(objectGraph);
           objectMethod.OutputsAdjacencyMatrix();
           
           Console.WriteLine(" $ the complete graph has been successfully constructed!");
@@ -177,7 +177,7 @@ namespace AdjacencyList
         }
         else if (command == "--build-comb-graph")
         {
-          var objectMethod = Graph.BuildCombinedGraph(objectGraph);
+          var objectMethod = Graph.s_BuildCombinedGraph(objectGraph);
           objectMethod.OutputsAdjacencyMatrix();
           
           Console.WriteLine(" $ the combined graph has been successfully constructed!");
@@ -186,7 +186,7 @@ namespace AdjacencyList
         }
         else if (command == "--build-con-graph")
         {
-          var objectMethod = Graph.BuildConnectedGraph(objectGraph);
+          var objectMethod = Graph.s_uildConnectedGraph(objectGraph);
           objectMethod.OutputsAdjacencyMatrix();
           
           Console.WriteLine(" $ the connected graph has been successfully constructed!");

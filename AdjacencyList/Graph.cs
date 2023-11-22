@@ -269,7 +269,7 @@ public class Graph
   }
 
   // this method builds a complete graph
-  public static Graph BuildCompleteGraph(Graph g)
+  public static Graph s_BuildCompleteGraph(Graph g)
   {
     var completeGraph = new Graph();
 
@@ -286,7 +286,7 @@ public class Graph
   }
 
   // this method builds a complement graph
-  public static Graph BuildComplementGraph(Graph g)
+  public static Graph s_BuildComplementGraph(Graph g)
   {
     var complementGraph = new Graph();
 
@@ -306,7 +306,7 @@ public class Graph
   }
 
   // this method builds a combined graph
-  public static Graph BuildCombinedGraph(Graph g)
+  public static Graph s_BuildCombinedGraph(Graph g)
   {
     var combinedGraph = new Graph();
     var adjacencyList = new Graph();
@@ -348,7 +348,7 @@ public class Graph
   }
 
   // this method builds a connected graph
-  public static Graph BuildConnectedGraph(Graph g)
+  public static Graph s_uildConnectedGraph(Graph g)
   {
     var connectedGraph = new Graph();
     var adjacencyList = new Graph();
@@ -477,27 +477,27 @@ public class Graph
             
     foreach (var edge in sortedEdges)
     {
-      var root1 = Find(edge.Source, parent);
-      var root2 = Find(edge.Destination, parent);
+      var root1 = s_Find(edge.Source, parent);
+      var root2 = s_Find(edge.Destination, parent);
                 
       if (root1 != root2)
       {
         mst.AddEdge(edge.Source, edge.Destination, edge.Weight, false);
         totalWeight += edge.Weight; 
-        Union(root1, root2, parent);
+        s_Union(root1, root2, parent);
       }
     }
 
     return (mst, totalWeight);
   }
 
-  private static string Find(string vertex, Dictionary<string, string> parent)
+  private static string s_Find(string vertex, Dictionary<string, string> parent)
   {
     if (parent[vertex] != vertex)
-      parent[vertex] = Find(parent[vertex], parent);
+      parent[vertex] = s_Find(parent[vertex], parent);
             
     return parent[vertex];
   }
 
-  private static void Union(string root1, string root2, Dictionary<string, string> parent) => parent[root1] = root2;
+  private static void s_Union(string root1, string root2, Dictionary<string, string> parent) => parent[root1] = root2;
 }

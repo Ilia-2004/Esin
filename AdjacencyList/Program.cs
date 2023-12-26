@@ -6,7 +6,7 @@ internal abstract class Program
   public static void Main() 
   {
     var objectGraph = new Graph();
-    const string pathFile = @"F:\Ilya\Programming\Esin\AdjacencyList\test-files\";
+    const string pathFile = @"D:\ISP-42\Krasnenkov-2\AdjacencyList\test-files\";
         
     while (true)
     { 

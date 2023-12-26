@@ -353,7 +353,7 @@ public class Graph
     var connectedGraph = new Graph();
     var adjacencyList = new Graph();
 
-    adjacencyList.AddFromFile(@"F:\Ilya\Programming\Esin\AdjacencyList\test-files\file3.txt");
+    adjacencyList.AddFromFile(@"D:\ISP-42\Krasnenkov-2\AdjacencyList\test-file\file3.txt");
 
     foreach (var vertex in g._adjacencyList)
     {

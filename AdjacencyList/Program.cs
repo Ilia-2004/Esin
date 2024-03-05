@@ -158,7 +158,7 @@ internal abstract class Program
       }
       else if (command == "--build-full-graph")
       {
-        var objectMethod = Graph.s_BuildCompleteGraph(objectGraph);
+        var objectMethod = Graph.BuildCompleteGraph(objectGraph);
         objectMethod.OutputsAdjacencyMatrix();
           
         Console.WriteLine(" $ the complete graph has been successfully constructed!");
@@ -167,7 +167,7 @@ internal abstract class Program
       }
       else if (command == "--build-com-graph")
       {
-        var objectMethod = Graph.s_BuildComplementGraph(objectGraph);
+        var objectMethod = Graph.BuildComplementGraph(objectGraph);
         objectMethod.OutputsAdjacencyMatrix();
           
         Console.WriteLine(" $ the complete graph has been successfully constructed!");
@@ -176,7 +176,7 @@ internal abstract class Program
       }
       else if (command == "--build-comb-graph")
       {
-        var objectMethod = Graph.s_BuildCombinedGraph(objectGraph);
+        var objectMethod = Graph.BuildCombinedGraph(objectGraph);
         objectMethod.OutputsAdjacencyMatrix();
           
         Console.WriteLine(" $ the combined graph has been successfully constructed!");
@@ -185,7 +185,7 @@ internal abstract class Program
       }
       else if (command == "--build-con-graph")
       {
-        var objectMethod = Graph.s_uildConnectedGraph(objectGraph);
+        var objectMethod = Graph.UildConnectedGraph(objectGraph);
         objectMethod.OutputsAdjacencyMatrix();
           
         Console.WriteLine(" $ the connected graph has been successfully constructed!");
